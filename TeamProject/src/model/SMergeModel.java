@@ -10,14 +10,14 @@ import java.util.Scanner;
 
 
 public class SMergeModel {
-	String leftPath;			//?™¼ìª? ?™”ë©? ?ŒŒ?¼?˜ Pathê°? ?‹´ê¹?	
-	String rightPath;			//?˜¤ë¥¸ìª½ ?™”ë©? ?ŒŒ?¼?˜ Pathê°? ?‹´ê¹?
-	ArrayList<String> leftTxt;		//?™¼ìª? ?™”ë©´ì˜ ?…?Š¤?Š¸ê°? ?‹´ê¹?
-	ArrayList<String> rightTxt;		//?˜¤ë¥¸ìª½ ?™”ë©´ì˜ ?…?Š¤?Š¸ê°? ?‹´
+	String leftPath;			//ì™¼ìª½ í™”ë©´ íŒŒì¼ì˜ Pathê°€ ë‹´ê¹€	
+	String rightPath;			//ì˜¤ë¥¸ìª½ í™”ë©´ íŒŒì¼ì˜ Pathê°€ ë‹´ê¹€
+	ArrayList<String> leftTxt;		//ì™¼ìª½ í™”ë©´ì˜ í…ìŠ¤íŠ¸ê°€ ë‹´ê¹€
+	ArrayList<String> rightTxt;		//ì˜¤ë¥¸ìª½ í™”ë©´ì˜ í…ìŠ¤íŠ¸ê°€ ë‹´
 	ArrayList<Boolean> leftBoolean;
 	ArrayList<Boolean> rightBoolean;
-	File leftFile;				//?˜¤ë¥¸ìª½ ?ŒŒ?¼ êµ¬ì¡°ì²?
-	File rightFile;				//?™¼ìª? ?ŒŒ?¼ êµ¬ì¡°ì²?
+	File leftFile;				//ì˜¤ë¥¸ìª½ íŒŒì¼ êµ¬ì¡°ì²´
+	File rightFile;				//ì™¼ìª½ íŒŒì¼ êµ¬ì¡°ì²´
 	
 	public String getleftPath(){return leftPath;}
 	public String getrightPath(){return rightPath;}
@@ -48,10 +48,10 @@ public class SMergeModel {
 		this.leftTxt = leftTxt;
 		
 		try{
-			FileWriter l_writer = new FileWriter(leftFile);// ?ŒŒ?¼ ê°ì²´ë¥? ë¨¼ê²¨?•¼?•¨? ?•„?‹ˆë©? ?ŒŒ?¼ ?Œ¨?Š¤ë¥? ?„˜ê²¨ì•¼?•¨?
-		                                                   // ?Œ¨?Š¤ê°? ë°”ë?? ê²½ìš° ?ŒŒ?¼ ?Œ¨?Š¤ë¥? ?´?š©?•´?•¼ ?• ?“¯?
+			FileWriter l_writer = new FileWriter(leftFile);// íŒŒì¼ ê°ì²´ë¥¼ ë¨¼ê²¨ì•¼í•¨? ì•„ë‹ˆë©´ íŒŒì¼ íŒ¨ìŠ¤ë¥¼ ë„˜ê²¨ì•¼í•¨?
+		                                                   // íŒ¨ìŠ¤ê°€ ë°”ë€” ê²½ìš° íŒŒì¼ íŒ¨ìŠ¤ë¥¼ ì´ìš©í•´ì•¼ í• ë“¯?
 			for(int i=0;i<leftTxt.size();i++){
-				l_writer.write(leftTxt.get(i)+"\r\n"); // ?œˆ?„?š° ê¸°ë°˜ ë©”ëª¨?¥?—?„œ?Š” ê°œí•­?´ ?•ˆ?¨, ê°œí–‰ë¬¸ìë¥?  /r/në¡? ?•´?•¼ ?…?Š¤?Š¸?‚´?˜ ê°œí–‰ë¬¸ìê°? ë©”ëª¨?¥?— ? ?š©?¨ ( ?ŒŒ?¼ ë¡œë“œ ?• ?•Œ ê°œí–‰ë¬¸ì ì½”ë“œë¥? ë°”ê¾¸ë©? ? ?“¯)
+				l_writer.write(leftTxt.get(i)+"\r\n"); // ìœˆë„ìš° ê¸°ë°˜ ë©”ëª¨ì¥ì—ì„œëŠ” ê°œí•­ì´ ì•ˆë¨, ê°œí–‰ë¬¸ìë¥¼  /r/në¡œ í•´ì•¼ í…ìŠ¤íŠ¸ë‚´ì˜ ê°œí–‰ë¬¸ìê°€ ë©”ëª¨ì¥ì— ì ìš©ë¨ ( íŒŒì¼ ë¡œë“œ í• ë•Œ ê°œí–‰ë¬¸ì ì½”ë“œë¥¼ ë°”ê¾¸ë©´ ë ë“¯)
 			}
 			l_writer.close();
 		}catch(FileNotFoundException e){
@@ -61,8 +61,8 @@ public class SMergeModel {
 			e.printStackTrace();
 		}
 		/*
-		 * leftFile?—?‹¤ê°? leftTxtë¥? ?ƒˆë¡? ?¨ì£¼ì„¸?š”(ì¤??™)
-		 * fileWriter ?´?š©(?‹¤ë¥? ?•¨?ˆ˜?—¬?„ ?ƒê´??? ?—†?Œ)
+		 * leftFileì—ë‹¤ê°€ leftTxtë¥¼ ìƒˆë¡œ ì¨ì£¼ì„¸ìš”(ì¤€í™)
+		 * fileWriter ì´ìš©(ë‹¤ë¥¸ í•¨ìˆ˜ì—¬ë„ ìƒê´€ì€ ì—†ìŒ)
 		 */
 		
 	}
@@ -71,10 +71,10 @@ public class SMergeModel {
 		this.rightTxt = rightTxt;
 		
 		try{
-			FileWriter r_writer = new FileWriter(rightFile);// ?ŒŒ?¼ ê°ì²´ë¥? ë¨¼ê²¨?•¼?•¨? ?•„?‹ˆë©? ?ŒŒ?¼ ?Œ¨?Š¤ë¥? ?„˜ê²¨ì•¼?•¨?
-		                                                   // ?Œ¨?Š¤ê°? ë°”ë?? ê²½ìš° ?ŒŒ?¼ ?Œ¨?Š¤ë¥? ?´?š©?•´?•¼ ?• ?“¯?
+			FileWriter r_writer = new FileWriter(rightFile);// íŒŒì¼ ê°ì²´ë¥¼ ë¨¼ê²¨ì•¼í•¨? ì•„ë‹ˆë©´ íŒŒì¼ íŒ¨ìŠ¤ë¥¼ ë„˜ê²¨ì•¼í•¨?
+		                                                   // íŒ¨ìŠ¤ê°€ ë°”ë€” ê²½ìš° íŒŒì¼ íŒ¨ìŠ¤ë¥¼ ì´ìš©í•´ì•¼ í• ë“¯?
 			for(int i=0;i<rightTxt.size();i++){
-				r_writer.write(rightTxt.get(i)+"\r\n"); // ?œˆ?„?š° ê¸°ë°˜ ë©”ëª¨?¥?—?„œ?Š” ê°œí•­?´ ?•ˆ?¨, ê°œí–‰ë¬¸ìë¥?  /r/në¡? ?•´?•¼ ?…?Š¤?Š¸?‚´?˜ ê°œí–‰ë¬¸ìê°? ë©”ëª¨?¥?— ? ?š©?¨ ( ?ŒŒ?¼ ë¡œë“œ ?• ?•Œ ê°œí–‰ë¬¸ì ì½”ë“œë¥? ë°”ê¾¸ë©? ? ?“¯)
+				r_writer.write(rightTxt.get(i)+"\r\n"); // ìœˆë„ìš° ê¸°ë°˜ ë©”ëª¨ì¥ì—ì„œëŠ” ê°œí•­ì´ ì•ˆë¨, ê°œí–‰ë¬¸ìë¥¼  /r/në¡œ í•´ì•¼ í…ìŠ¤íŠ¸ë‚´ì˜ ê°œí–‰ë¬¸ìê°€ ë©”ëª¨ì¥ì— ì ìš©ë¨ ( íŒŒì¼ ë¡œë“œ í• ë•Œ ê°œí–‰ë¬¸ì ì½”ë“œë¥¼ ë°”ê¾¸ë©´ ë ë“¯)
 			}
 			
 			r_writer.close();
@@ -85,8 +85,8 @@ public class SMergeModel {
 			e.printStackTrace();	
 		}
 		/*
-		 * rightFile?—?‹¤ê°? rightTxtë¥? ?ƒˆë¡? ?¨ì£¼ì„¸?š” (ì¤??™)
-		 * fileWriter ?´?š©(?‹¤ë¥? ?•¨?ˆ˜?—¬?„ ?ƒê´??? ?—†?Œ)
+		 * rightFileì—ë‹¤ê°€ rightTxtë¥¼ ìƒˆë¡œ ì¨ì£¼ì„¸ìš” (ì¤€í™)
+		 * fileWriter ì´ìš©(ë‹¤ë¥¸ í•¨ìˆ˜ì—¬ë„ ìƒê´€ì€ ì—†ìŒ)
 		 */
 		
 	}
@@ -103,7 +103,7 @@ public class SMergeModel {
 	    	System.exit(1);
 	    }
 		/*
-		 * fileChooser ï¿½ë¸¿ï¿½ë‹” ï¿½ì” ï¿½ìŠœï¿½ë¸¯ï¿½ë¿¬ data fieldï¿½ë¿‰ ï¿½ì—³ï¿½ë’— leftPath, leftTxt, leftFile ï¿½ì“£ ï§?ê¾©ì™ï¿½ê½”ï¿½ë¼±äºŒì‡±ê½?ï¿½ìŠ‚(ï¿½ì”—ï¿½ê¸½)
+		 * fileChooser ï¿½ë¸¿ï¿½ë‹” ï¿½ì” ï¿½ìŠœï¿½ë¸¯ï¿½ë¿¬ data fieldï¿½ë¿‰ ï¿½ì—³ï¿½ë’— leftPath, leftTxt, leftFile ï¿½ì“£ ï§¢ê¾©ì™ï¿½ê½”ï¿½ë¼±äºŒì‡±ê½­ï¿½ìŠ‚(ï¿½ì”—ï¿½ê¸½)
 		 */
 	}
 	
