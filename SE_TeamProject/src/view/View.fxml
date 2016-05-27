@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="465.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+   <children>
+      <MenuBar layoutX="3.0" layoutY="-1.0" prefHeight="29.0" prefWidth="656.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#open_L" text="Open Left File">
+                     <graphic>
+                        <ImageView fx:id="itemOpen_L" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/OpenLeftFile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#open_R" text="Open Right File">
+                     <graphic>
+                        <ImageView fx:id="itemOpen_R" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/OpenRightFile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#save_L" text="Save Left File">
+                     <graphic>
+                        <ImageView fx:id="itemSave_L" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/SaveLeftFile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#save_R" text="Save Right File">
+                     <graphic>
+                        <ImageView fx:id="itemSave_R" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/SaveRightFile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#save_All" text="Save All Files">
+                     <graphic>
+                        <ImageView fx:id="itemSave_All" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/SaveAllFiles.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Merge">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Merge to Left">
+                     <graphic>
+                        <ImageView fx:id="itemMergetoL" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/MergeToLeft.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Merge to Right">
+                     <graphic>
+                        <ImageView fx:id="itemMergetoR" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/view/Images/MergeToRight.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+         </menus>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </MenuBar>
+      <TableView fx:id="textArea" layoutX="75.0" layoutY="99.0" prefHeight="326.0" prefWidth="540.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="100.0">
+         <columns>
+            <TableColumn fx:id="textArea_L" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="270.0" resizable="false" sortable="false" text="Untitled" />
+            <TableColumn fx:id="textArea_R" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="270.0" resizable="false" sortable="false" text="Untitled" />
+         </columns>
+      </TableView>
+      <ImageView fx:id="btnSave_R" fitHeight="30.0" fitWidth="30.0" layoutX="571.0" layoutY="70.0" onMouseClicked="#save_R" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/SaveRightFile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnOpen_R" fitHeight="30.0" fitWidth="30.0" layoutX="520.0" layoutY="70.0" onMouseClicked="#open_R" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="111.5670108795166" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/OpenRightFile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnEdit_L" fitHeight="30.0" fitWidth="30.0" layoutX="60.0" layoutY="55.0" onMouseClicked="#edit_L" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/Edit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnOpen_L" fitHeight="30.0" fitWidth="30.0" layoutX="108.0" layoutY="70.0" onMouseClicked="#open_L" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/OpenLeftFile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnSave_L" fitHeight="30.0" fitWidth="30.0" layoutX="156.0" layoutY="70.0" onMouseClicked="#save_L" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/SaveLeftFile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnEdit_R" fitHeight="30.0" fitWidth="30.0" layoutX="470.0" layoutY="70.0" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="161.5670108795166" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/Edit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnMergetoL" fitHeight="30.0" fitWidth="30.0" layoutX="420.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="211.5670108795166" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/MergeToLeft.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="btnMergetoR" fitHeight="30.0" fitWidth="30.0" layoutX="204.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/MergeToRight.png" />
+         </image>
+      </ImageView>
+   </children>
+   <padding>
+      <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
+   </padding>
+</AnchorPane>
