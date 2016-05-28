@@ -9,18 +9,31 @@ public class SMergeModelTest {
 	private SMergeModel model = new SMergeModel();
 
 	@Test
-	public void testleftLoad() {
-		File file = new File("/Users/LeeHyungJoo/Downloads/test.txt");
-		//í…ŒìŠ¤íŠ¸í•˜ë ¤ëŠ” í…ìŠ¤íŠ¸íŒŒì¼ì˜ ìœ„ì¹˜ë¥¼ ì…ë ¥
-		model.setleftFile(file);
+	public void testLoad() {
+		File file1 = new File("C:\\Users\\rhs12\\Desktop\\1.txt");
+		File file2 = new File("C:\\Users\\rhs12\\Desktop\\2.txt");
+		//Å×½ºÆ®ÇÏ·Á´Â ÅØ½ºÆ®ÆÄÀÏÀÇ À§Ä¡¸¦ ÀÔ·Â
+		//1°ú2´Â °°ÀºÅØ½ºÆ®, Ä¿¼­°¡ ¾îµğÀÖµçÁö »ó°üÀÌ ¾øÀ½
+		model.setleftFile(file1);
 		model.leftLoad();
-		StringBuilder testString=new StringBuilder("111\n");
-		//í…ŒìŠ¤íŠ¸ í•˜ë ¤ëŠ” í…ìŠ¤íŠ¸ íŒŒì¼ì˜ ë‚´ìš©ì„ ì…ë ¥
-		//assertEquals(testString,model.getleftTxt());
-		//ì•ˆë¨ ê°•ì˜ìë£Œ ì°¸ê³ 
-
-		assertTrue(testString.toString().equals(model.getleftTxt().toString()));
-		//testStingê³¼ leftTxtë¥¼ ëª¨ë‘ stringí˜•ìœ¼ë¡œ ë³€ê²½, ë¹„êµ
+		model.setrightFile(file2);
+		model.rightLoad();
+		assertEquals(model.getleftTxt(),model.getrightTxt());
+	}
+	
+	@Test
+	public void testRepeatLoad() {
+		File file1 = new File("C:\\Users\\rhs12\\Desktop\\1.txt");
+		File file2 = new File("C:\\Users\\rhs12\\Desktop\\2.txt");
+		//Å×½ºÆ®ÇÏ·Á´Â ÅØ½ºÆ®ÆÄÀÏÀÇ À§Ä¡¸¦ ÀÔ·Â
+		model.setleftFile(file1);
+		model.leftLoad();
+		model.leftLoad();
+		//°°ÀºÅØ½ºÆ®¸¦ ÇÏ³ª´Â µÎ¹ø ºÒ·¯µéÀÓ
+		model.setrightFile(file2);
+		model.rightLoad();
+		assertEquals(model.getleftTxt(),model.getrightTxt());
+		//º¯°æÀü¿¡´Â fail, Áö±İÀº Á¤»óÀû
 	}
 }
 
