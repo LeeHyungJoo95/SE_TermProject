@@ -33,7 +33,7 @@ public class SMergeModelTest {
 		model.setrightFile(file2);
 		model.rightLoad();
 		assertEquals(model.getleftTxt(),model.getrightTxt());
-		//변경전에는 fail, 지금은 정상적
+		//변경전에는 fail, 지금은 정상적 
 	}
 }
 

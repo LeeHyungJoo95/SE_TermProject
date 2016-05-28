@@ -82,7 +82,7 @@ public class SMergeModel {
 		try {
 	    	Scanner leftScanner = new Scanner(leftFile);
 	        while(leftScanner.hasNext()){
-	        	leftTxt.add(leftScanner.nextLine());
+	        	leftTxt.add(leftScanner.nextLine()+"\n");
 	        }
 	        leftScanner.close();
 			
@@ -97,7 +97,7 @@ public class SMergeModel {
 		try {
 	    	Scanner rightScanner = new Scanner(rightFile);
 	        while(rightScanner.hasNext()){
-	        	rightTxt.add(rightScanner.nextLine());
+	        	rightTxt.add(rightScanner.nextLine()+"\n");
 	        }
 	        rightScanner.close();
 	    }
