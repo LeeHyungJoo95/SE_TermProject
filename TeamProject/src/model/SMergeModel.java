@@ -30,7 +30,7 @@ public class SMergeModel {
 	public void setrightPath(String rightPath){this.rightPath=rightPath;}
 	public void setleftTxt(ArrayList<String> leftTxt){this.leftTxt=leftTxt;}
 	public void setrightTxt(ArrayList<String> rightTxt){this.rightTxt=rightTxt;}
-	public void setleftBoolean(ArrayList<Boolean> txtBoolean){this.txtBoolean=txtBoolean;}
+	public void settxtBoolean(ArrayList<Boolean> txtBoolean){this.txtBoolean=txtBoolean;}
 	public void setleftFile(File leftFile){this.leftFile=leftFile;}
 	public void setrightFile(File rihgtFile){this.rightFile=rihgtFile;}
 	
