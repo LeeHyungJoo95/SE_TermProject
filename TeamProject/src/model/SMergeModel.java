@@ -13,6 +13,8 @@ public class SMergeModel {
 	ArrayList<String> leftTxt;		
 	ArrayList<String> rightTxt;		
 	ArrayList<Boolean> txtBoolean;
+	ArrayList<String> diffLeftTxt;
+	ArrayList<String> diffRightTxt;
 	File leftFile;				
 	File rightFile;				
 	
@@ -20,14 +22,19 @@ public class SMergeModel {
 	public String getrightPath(){return rightPath;}
 	public ArrayList<String> getleftTxt(){return leftTxt;}
 	public ArrayList<String> getrightTxt(){return rightTxt;}
+	public ArrayList<String> getDiffLeftTxt(){return diffLeftTxt;}
+	public ArrayList<String> getDiffRightTxt(){return diffRightTxt;}
 	public ArrayList<Boolean> gettxtBoolean(){return txtBoolean;}
 	public File getleftFile(){return leftFile;}
 	public File getrightFile(){return rightFile;}
+	
 	
 	public void setleftPath(String leftPath){this.leftPath=leftPath;}
 	public void setrightPath(String rightPath){this.rightPath=rightPath;}
 	public void setleftTxt(ArrayList<String> leftTxt){this.leftTxt=leftTxt;}
 	public void setrightTxt(ArrayList<String> rightTxt){this.rightTxt=rightTxt;}
+	public void setDiffLeftTxt(ArrayList<String> diffLeftTxt){this.diffLeftTxt=diffLeftTxt;}
+	public void setDiffRightTxt(ArrayList<String> diffRightTxt){this.diffRightTxt=diffRightTxt;}
 	public void settxtBoolean(ArrayList<Boolean> txtBoolean){this.txtBoolean=txtBoolean;}
 	public void setleftFile(File leftFile){this.leftFile=leftFile;}
 	public void setrightFile(File rihgtFile){this.rightFile=rihgtFile;}
@@ -109,7 +116,7 @@ public class SMergeModel {
 	public void copyToLeft(){
 		for(int i = 0 ; i < txtBoolean.size() ; i++){
 			if(!txtBoolean.get(i)){
-				leftTxt.set(i, rightTxt.get(i));
+				diffLeftTxt.set(i, diffRightTxt.get(i));
 			}
 		}
 	}
@@ -118,7 +125,7 @@ public class SMergeModel {
 	public void copyToRight(){
 		for(int i = 0 ; i < txtBoolean.size() ; i++){
 			if(!txtBoolean.get(i)){
-				rightTxt.set(i, leftTxt.get(i));
+				diffRightTxt.set(i, diffLeftTxt.get(i));
 			}
 		}
 	}
