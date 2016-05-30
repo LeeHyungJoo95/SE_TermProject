@@ -54,7 +54,8 @@ public class SMergeModel {
 			FileWriter l_writer = new FileWriter(leftFile);
 		                                                   
 			for(int i=0;i<leftTxt.size();i++){
-				l_writer.write(leftTxt.get(i)+"\r\n"); 
+				if(i!=(leftTxt.size()-1))
+					l_writer.write(leftTxt.get(i).substring(0, leftTxt.get(i).length()-1)+"\r\n"); 
 			}
 			l_writer.close();
 		}catch(FileNotFoundException e){
@@ -72,7 +73,8 @@ public class SMergeModel {
 			FileWriter r_writer = new FileWriter(rightFile);
 		                                                  
 			for(int i=0;i<rightTxt.size();i++){
-				r_writer.write(rightTxt.get(i)+"\r\n"); 
+				if(i!=(rightTxt.size()-1))
+					r_writer.write(rightTxt.get(i).substring(0, rightTxt.get(i).length()-1)+"\r\n"); 
 			}
 			
 			r_writer.close();
@@ -91,6 +93,7 @@ public class SMergeModel {
 	        while(leftScanner.hasNext()){
 	        	leftTxt.add(leftScanner.nextLine()+"\n");
 	        }
+	        leftTxt.add("\n");
 	        leftScanner.close();
 			
 	    }
@@ -106,6 +109,7 @@ public class SMergeModel {
 	        while(rightScanner.hasNext()){
 	        	rightTxt.add(rightScanner.nextLine()+"\n");
 	        }
+	        rightTxt.add("\n");
 	        rightScanner.close();
 	    }
 	    catch (Exception e) {
