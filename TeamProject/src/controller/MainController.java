@@ -4,24 +4,35 @@ package controller;
 import java.io.File;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javax.swing.event.DocumentEvent.EventType;
+
 import com.sun.javafx.collections.MappingChange.Map;
+import com.sun.javafx.scene.control.behavior.TableCellBehavior;
+import com.sun.javafx.scene.control.skin.TableCellSkin;
+import com.sun.javafx.scene.control.skin.TableCellSkinBase;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.util.Callback;
 import model.SMergeModel;
 import view.*;
 
@@ -29,32 +40,54 @@ import view.*;
 public class MainController implements Initializable {
 
 	
+	
+	
 	private SMergeModel model = new SMergeModel();
 	
+	
 	@FXML
-	private TableView textArea;
+	private TableView tableArea;
+	
+	
+	
 	@FXML
-	private TableColumn<HashMap, String> textArea_L, textArea_R;
+	private TableColumn<HashMap, String> tableArea_L, tableArea_R;
+	
 	
 	@FXML
 	private ImageView btnEdit_L, btnEdit_R;
 	
 	@FXML
+	private ImageView btnSaveEdit_L, btnSaveEdit_R;
+	
+	@FXML
 	private ImageView btnOpen_L, btnOpen_R;
 	
 	@FXML
-	public void edit_L()
+	public void diff()
 	{
-		textArea_L.setEditable(!textArea_L.isEditable());
-		
+	}
+	
+	@FXML
+
+	public void edit_L()
+	{		
+		tableArea_L.setEditable(!tableArea_L.isEditable());
+		btnEdit_L.setVisible(!btnEdit_L.isVisible());
+		btnSaveEdit_L.setVisible(!btnSaveEdit_L.isVisible());
+		tableArea.requestFocus();
 	}
 	
 	@FXML
 	public void edit_R()
 	{
-		textArea_R.setEditable(!textArea_R.isEditable());
-	
+		tableArea_R.setEditable(!tableArea_R.isEditable());
+		btnEdit_R.setVisible(!btnEdit_R.isVisible());
+		btnSaveEdit_R.setVisible(!btnSaveEdit_R.isVisible());
+		tableArea.requestFocus();
 	}
+	
+	
 	@FXML
 	public void open_L(){
 	
@@ -62,7 +95,7 @@ public class MainController implements Initializable {
 		FileChooser fc = new FileChooser();
 		try{
 			file = fc.showOpenDialog(null);
-			textArea_L.setText(file.getAbsolutePath());
+			tableArea_L.setText(file.getAbsolutePath());
 			model.setleftFile(file);
 			model.setleftPath(file.getAbsolutePath());
 			model.leftLoad();
@@ -85,7 +118,7 @@ public class MainController implements Initializable {
 		FileChooser fc = new FileChooser();
 		try{
 			file = fc.showOpenDialog(null);
-			textArea_R.setText(file.getAbsolutePath());
+			tableArea_R.setText(file.getAbsolutePath());
 			model.setrightFile(file);
 			model.setrightPath(file.getAbsolutePath());
 			model.rightLoad();
@@ -99,8 +132,9 @@ public class MainController implements Initializable {
 		
 	}
 	
-	private void setTable()
+	public void setTable()
 	{
+		
 		ObservableList<HashMap> allData = FXCollections.observableArrayList();
 	
 		int leftsize = model.getleftTxt().size();
@@ -117,13 +151,36 @@ public class MainController implements Initializable {
 				dataRow.put("right", model.getrightTxt().get(i));
 			allData.add(dataRow);
 		}
-		textArea.setItems(allData);
+		tableArea.setItems(allData);
+		
+		
 	}
+	
+	
+	@FXML
+	public void set_L(TableColumn.CellEditEvent<HashMap, String> t) {
+		  ((HashMap)t.getTableView().getItems().get(
+                  t.getTablePosition().getRow())).put("left", t.getNewValue());
+		  
+			model.getleftTxt().set(t.getTablePosition().getRow(), t.getNewValue());
+		
+	}
+	
+	@FXML
+	public void set_R(TableColumn.CellEditEvent<HashMap, String> t) {
+		  ((HashMap)t.getTableView().getItems().get(
+                  t.getTablePosition().getRow())).put("right", t.getNewValue());
+		  
+		  
+		  model.getrightTxt().set(t.getTablePosition().getRow(), t.getNewValue());
+		
+	}
+
 	
 	@FXML
 	public void save_L()
 	{
-		
+		//diff
 	}
 	
 	@FXML
@@ -139,13 +196,71 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		textArea_L.setCellValueFactory(new MapValueFactory("left"));
-		textArea_R.setCellValueFactory(new MapValueFactory("right"));
-		}
-	/*
-	
-	private ObservableList<Map> generateDataInMap(String[] left, String[] right, int[] difference){
 		
-	}*/
+		
+		tableArea_L.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
+				@Override
+				public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
+				{
+					TableCells tablecell = new TableCells();
+					// TODO Auto-generated method stub
+					tablecell.getTextField().setOnKeyPressed(new EventHandler<KeyEvent>(){
+						@Override
+						public void handle(KeyEvent event) {
+							// TODO Auto-generated method stub
+							if((event.getCode() == KeyCode.BACK_SPACE && tablecell.getTextField().getText().equals("")) )
+							{
+								tablecell.commitEdit(tablecell.getTextField().getText());
+								model.getleftTxt().remove(tablecell.getTableRow().getIndex());
+								setTable();
+							}
+							else if(event.getCode() == KeyCode.ENTER) {
+								tablecell.commitEdit(tablecell.getTextField().getText());
+								model.getleftTxt().add(tablecell.getTableRow().getIndex()+1, "");
+								setTable();
+				                }
+				             
+							else if (event.getCode() == KeyCode.ESCAPE) {
+								tablecell.commitEdit(tablecell.getTextField().getText());
+					        }
+							
+						}});
+					
+					return tablecell;	
+				}
+				});
+		
+		tableArea_R.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
+			@Override
+			public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
+			{
+				TableCells tablecell = new TableCells();
+				// TODO Auto-generated method stub
+				tablecell.getTextField().setOnKeyPressed(new EventHandler<KeyEvent>(){
+					@Override
+					public void handle(KeyEvent event) {
+						// TODO Auto-generated method stub
+						if(event.getCode() == KeyCode.BACK_SPACE && tablecell.getTextField().getText().equals(""))
+						{
+							tablecell.commitEdit(tablecell.getTextField().getText());
+							model.getrightTxt().remove(tablecell.getTableRow().getIndex());
+							setTable();
+						}
+					}});
+				
+				return tablecell;	
+			}
+			});
+		
+			
+		tableArea_L.setCellValueFactory(new MapValueFactory("left"));
+		tableArea_R.setCellValueFactory(new MapValueFactory("right"));
+		}
+	
+
+	
+	
 	
 }
+
+
