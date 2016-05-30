@@ -1,0 +1,23 @@
+.cell-renderer-changed {
+    -fx-background-color: rgba(255, 248, 33, .4);
+    /*-fx-control-inner-background: rgb(255, 248, 33);*/
+    -fx-accent: derive(-fx-control-inner-background, -40%);
+    -fx-cell-hover-color: #cce3f4;
+    -fx-cell-focus-inner-border: #85b9de;
+}
+
+.cell-renderer-error {
+    -fx-background-color: rgba(255, 159, 160, .4);
+    /*-fx-control-inner-background: rgb(255, 159, 160);*/
+    -fx-accent: derive(-fx-control-inner-background, -40%);
+    -fx-cell-hover-color: #cce3f4;
+    -fx-cell-focus-inner-border: #85b9de;
+}
+
+.cell-renderer-error-and-changed {
+    -fx-background-color: rgba(255, 205, 158, .4);
+    /*-fx-control-inner-background: rgb(255, 205, 158);*/
+    -fx-accent: derive(-fx-control-inner-background, -40%);
+    -fx-cell-hover-color: #cce3f4;
+    -fx-cell-focus-inner-border: #85b9de;
+}
