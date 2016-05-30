@@ -1,4 +1,4 @@
-package application;
+package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -105,4 +105,21 @@ public class SMergeModel {
 	    	System.exit(1); 
 	    }	
 	}	
+	
+	public void copyToLeft(){
+		for(int i = 0 ; i < txtBoolean.size() ; i++){
+			if(!txtBoolean.get(i)){
+				leftTxt.set(i, rightTxt.get(i));
+			}
+		}
+	}
+	
+
+	public void copyToRight(){
+		for(int i = 0 ; i < txtBoolean.size() ; i++){
+			if(!txtBoolean.get(i)){
+				rightTxt.set(i, leftTxt.get(i));
+			}
+		}
+	}
 }
