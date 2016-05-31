@@ -117,21 +117,75 @@ public class SMergeModel {
 	    }	
 	}	
 	
-	public void copyToLeft(){
-		for(int i = 0 ; i < txtBoolean.size() ; i++){
-			if(!txtBoolean.get(i)){
-				diffLeftTxt.set(i, diffRightTxt.get(i));
-			}
+	public void copyToLeft(String s){
+		
+		int input;
+		input = Integer.parseInt(s);
+		if(txtBoolean.get(input)){
+			leftTxt.set(input, rightTxt.get(input));
 		}
+		
+		else{
+			input--;
+			while(!txtBoolean.get(input)){
+				input--;
+			}
+			input++;
+			while(!txtBoolean.get(input)){
+				leftTxt.set(input, rightTxt.get(input));
+				input++;
+			}
+			
+			
+		}
+		
+		for( int i = 0; i < leftTxt.size(); i++){
+	         if(leftTxt.get(i).equals("\0")){
+	            leftTxt.remove(i);
+	         }
+	      }
+	      
+	      for( int i = 0; i < rightTxt.size(); i++){
+	         if(rightTxt.get(i).equals("\0")){
+	            rightTxt.remove(i);
+	         }
+	      }
+		
+		
+		
 	}
 	
 
-	public void copyToRight(){
-		for(int i = 0 ; i < txtBoolean.size() ; i++){
-			if(!txtBoolean.get(i)){
-				diffRightTxt.set(i, diffLeftTxt.get(i));
+	public void copyToRight(String s){
+
+		int input;
+		input = Integer.parseInt(s);
+		if(txtBoolean.get(input)){
+			rightTxt.set(input, leftTxt.get(input));
+		}
+		
+		else{
+			input--;
+			while(!txtBoolean.get(input)){
+				input--;
+			}
+			input++;
+			while(!txtBoolean.get(input)){
+				rightTxt.set(input, leftTxt.get(input));
+				input++;
 			}
 		}
+		for( int i = 0; i < leftTxt.size(); i++){
+	         if(leftTxt.get(i).equals("\0")){
+	            leftTxt.remove(i);
+	         }
+	      }
+	      
+	      for( int i = 0; i < rightTxt.size(); i++){
+	         if(rightTxt.get(i).equals("\0")){
+	            rightTxt.remove(i);
+	         }
+	      }
 	}
 	
 	
