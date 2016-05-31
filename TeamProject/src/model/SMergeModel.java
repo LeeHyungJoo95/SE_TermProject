@@ -139,7 +139,7 @@ public class SMergeModel {
 		int sizeofleftList = leftTxt.size();
 		int sizeofrightList = rightTxt.size();
 		int[][] lcsArray = new int[sizeofleftList+1][sizeofrightList+1];
-		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1이면 대각, 2면 왼쪽, 3이면 위 , 4 양쪽 에서 읽어온다
+		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1�씠硫� ��媛�, 2硫� �쇊履�, 3�씠硫� �쐞 , 4 �뼇履� �뿉�꽌 �씫�뼱�삩�떎
 		
 		for(int i = 1 ; i < sizeofleftList+1; i++){
 			for(int j = 1 ; j < sizeofrightList+1; j++){
@@ -162,13 +162,13 @@ public class SMergeModel {
 					}
 				}	
 			}	
-			
-			//// 이 아래부터 backtracking
+		}
+			//// �씠 �븘�옒遺��꽣 backtracking
 			int i = sizeofleftList;
 			int j = sizeofrightList;
-			int past_i; // 이전 위치
-			int past_j; // 이전 위치
-			ArrayList<String> c_element = new ArrayList<String>(); // 공통원소 저장 수열
+			int past_i; // �씠�쟾 �쐞移�
+			int past_j; // �씠�쟾 �쐞移�
+			ArrayList<String> c_element = new ArrayList<String>(); // 怨듯넻�썝�냼 ���옣 �닔�뿴
 			
 			while( lcsArray[i][j] != 0){
 				if ( lcsDirection[i][j] == 1){
@@ -225,5 +225,5 @@ public class SMergeModel {
 				}
 			}
 		}	
-	}
+
 }
