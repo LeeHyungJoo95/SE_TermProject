@@ -111,7 +111,7 @@ public class MainController implements Initializable {
 	
 	@FXML
 	public void open_L(){
-	/*
+	
 		File file;
 		FileChooser fc = new FileChooser();
 		try{
@@ -121,8 +121,7 @@ public class MainController implements Initializable {
 			model.setleftPath(file.getAbsolutePath());
 			model.leftLoad();
 
-			isFileOpened_L = true;
-			if(model.getrightFile() != null)
+			if(model.getrightPath() != null)
 			{
 				setTable();
 			}
@@ -130,66 +129,12 @@ public class MainController implements Initializable {
 		catch(NullPointerException e){
 			//do nothing
 		}
-		*/
-		ArrayList<String> left = new ArrayList<String>();
-		left.add("a");
-		left.add("b");
-		left.add("c");
-		left.add("c");
-		left.add("d");
-		left.add("d");
-		left.add("d");
-		left.add("d");
-		left.add("\n");
 		
-		ArrayList<String> right = new ArrayList<String>();
-		right.add("a");
-		right.add("c");
-		right.add("\n");
-		right.add("b");
-		right.add("d");
-		right.add("d");
-		right.add("d");
-		right.add("d");
-		right.add("\n");
-
-		model.setleftTxt(left);
-		model.setrightTxt(right);
-		
-		tableArea_L.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
-			@Override
-			public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
-			{
-				// TODO Auto-generated method stub
-				EditableTableCell tablecell = new EditableTableCell();
-				tablecell.getTextField().setOnKeyPressed(new EditHandler(tablecell));
-				
-				return tablecell;	
-			}
-			});
-	
-	
-		tableArea_R.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
-		@Override
-		public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
-		{				// TODO Auto-generated method stub
-
-			EditableTableCell tablecell = new EditableTableCell();
-			tablecell.getTextField().setOnKeyPressed(new EditHandler(tablecell));
-			
-			return tablecell;	
-		}
-		});
-		
-		setTable();
 	}
 
 	@FXML
 	public void open_R(){
 
-		System.out.println(model.getleftTxt());
-		System.out.println(model.getrightTxt());
-	/*
 		File file;
 		FileChooser fc = new FileChooser();
 		try{
@@ -197,17 +142,16 @@ public class MainController implements Initializable {
 			model.setrightFile(file);
 			model.setrightPath(file.getAbsolutePath());
 			model.rightLoad();
-			isFileOpened_R = true;
 			tableArea_R.setText(file.getAbsolutePath());
-			if(model.getleftFile() != null)
+			if(model.getleftPath() != null)
 			{
-				setTable();
+				setTable();		
 			}
 		}
 		catch(NullPointerException e){
 			//do nothing
 		}
-		*/
+		
 	}
 	
 	public void setTable()
