@@ -54,7 +54,8 @@ public class SMergeModel {
 			FileWriter l_writer = new FileWriter(leftFile);
 		                                                   
 			for(int i=0;i<leftTxt.size();i++){
-				l_writer.write(leftTxt.get(i)+"\r\n"); 
+				if(i!=(leftTxt.size()-1))
+					l_writer.write(leftTxt.get(i).substring(0, leftTxt.get(i).length()-1)+"\r\n"); 
 			}
 			l_writer.close();
 		}catch(FileNotFoundException e){
@@ -72,7 +73,8 @@ public class SMergeModel {
 			FileWriter r_writer = new FileWriter(rightFile);
 		                                                  
 			for(int i=0;i<rightTxt.size();i++){
-				r_writer.write(rightTxt.get(i)+"\r\n"); 
+				if(i!=(rightTxt.size()-1))
+					r_writer.write(rightTxt.get(i).substring(0, rightTxt.get(i).length()-1)+"\r\n"); 
 			}
 			
 			r_writer.close();
@@ -90,13 +92,21 @@ public class SMergeModel {
 	    	Scanner leftScanner = new Scanner(leftFile);
 	        while(leftScanner.hasNext()){
 	        	leftTxt.add(leftScanner.nextLine()+"\n");
-	        }
+	          }
+	        leftTxt.add("\n");
 	        leftScanner.close();
 			
 	    }
 	    catch (Exception e) {
 	    	System.exit(1);
 	    }
+		if(leftTxt.size() < rightTxt.size())
+		{
+			while(leftTxt.size() != rightTxt.size())
+			{
+				leftTxt.add("\0");
+			}
+		}
 	}
 	
 	public void rightLoad(){	
@@ -106,11 +116,20 @@ public class SMergeModel {
 	        while(rightScanner.hasNext()){
 	        	rightTxt.add(rightScanner.nextLine()+"\n");
 	        }
+	        rightTxt.add("\n");
 	        rightScanner.close();
 	    }
 	    catch (Exception e) {
 	    	System.exit(1); 
 	    }	
+		
+		if(rightTxt.size() < leftTxt.size())
+		{
+			while(rightTxt.size() != leftTxt.size())
+			{
+				rightTxt.add("\0");
+			}
+		}
 	}	
 	
 	public void copyToLeft(){
@@ -129,4 +148,111 @@ public class SMergeModel {
 			}
 		}
 	}
-}
+	
+	
+	public void lcsDiff(){
+		for(int i = 0; i < leftTxt.size() ; i++)
+		{
+			if(leftTxt.get(i).equals("\0"))
+			{
+				leftTxt.remove(i);
+			}
+		}
+		for(int i = 0; i < rightTxt.size() ; i++)
+		{
+			if(rightTxt.get(i).equals("\0"))
+			{
+				rightTxt.remove(i);
+			}
+		}
+		txtBoolean = new ArrayList<Boolean>();
+		int sizeofleftList = leftTxt.size();
+		int sizeofrightList = rightTxt.size();
+		int[][] lcsArray = new int[sizeofleftList+1][sizeofrightList+1];
+		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1이면 대각, 2면 왼쪽, 3이면 위 , 4 양쪽 에서 읽어온다
+		
+		for(int i = 1 ; i < sizeofleftList+1; i++){
+			for(int j = 1 ; j < sizeofrightList+1; j++){
+				if (leftTxt.get(i-1).equals(rightTxt.get(j-1))){
+					lcsArray[i][j] = lcsArray[i-1][j-1] + 1;
+					lcsDirection[i][j] = 1;
+				}
+				else{
+					if (lcsArray[i-1][j] > lcsArray[i][j-1]){
+						lcsArray[i][j] = lcsArray[i-1][j];
+						lcsDirection[i][j] = 3;
+					}
+					else if (lcsArray[i-1][j] < lcsArray[i][j-1]){
+						lcsArray[i][j] = lcsArray[i][j-1];
+						lcsDirection[i][j] = 2;
+					}
+					else {
+						lcsArray[i][j] = lcsArray[i][j-1];
+						lcsDirection[i][j] = 4;
+					}
+				}	
+			}	
+		}
+			//// 이 아래부터 backtracking
+			int i = sizeofleftList;
+			int j = sizeofrightList;
+			int past_i; // 이전 위치
+			int past_j; // 이전 위치
+			ArrayList<String> c_element = new ArrayList<String>(); // 공통원소 저장 수열
+			
+			while( lcsArray[i][j] != 0){
+				if ( lcsDirection[i][j] == 1){
+					past_i = i; past_j = j;
+					i--; j--;
+					if( lcsArray[i][j] < lcsArray[past_i][past_j])
+						c_element.add(0, rightTxt.get(past_j-1));
+				}
+				else if ( lcsDirection[i][j] == 2){
+					past_i = i; past_j = j;
+					j--;
+					if( lcsArray[i][j] < lcsArray[past_i][past_j])
+						c_element.add(0, rightTxt.get(past_j-1));
+				}
+				else if ( lcsDirection[i][j] == 3){
+					past_i = i; past_j = j;
+					i--;
+					if( lcsArray[i][j] < lcsArray[past_i][past_j])
+						c_element.add(0, leftTxt.get(past_i-1));
+				}
+				else if ( lcsDirection[i][j] == 4){
+					past_i = i; past_j = j;
+					j--;
+					if( lcsArray[i][j] < lcsArray[past_i][past_j])
+						c_element.add(0, rightTxt.get(past_j-1));
+				}
+				else{
+					break;
+				}
+			}
+			
+			
+			int index = 0;
+			for(int a = 0; a < c_element.size(); a++){
+				while(true){
+					if ( c_element.get(a).equals(leftTxt.get(index)) && c_element.get(a).equals(rightTxt.get(index))){
+						txtBoolean.add(true);
+						index = index + 1;
+						break;
+					}
+					else if ( c_element.get(a).equals(leftTxt.get(index)) && !c_element.get(a).equals(rightTxt.get(index))){
+						txtBoolean.add(false);
+						leftTxt.add(index, "\0");
+					}
+					else if ( !c_element.get(a).equals(leftTxt.get(index)) && c_element.get(a).equals(rightTxt.get(index))){
+						txtBoolean.add(false);
+						rightTxt.add(index, "\0");
+					}
+					else{
+						txtBoolean.add(false);
+					}
+					
+					index = index + 1;
+				}
+			}
+		}	
+	}
