@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class SMergeModel {
@@ -89,17 +90,34 @@ public class SMergeModel {
 	public void leftLoad(){	
 		leftTxt = new ArrayList<String>();
 		try {
-	    	Scanner leftScanner = new Scanner(leftFile);
-	        while(leftScanner.hasNext()){
-	        	leftTxt.add(leftScanner.nextLine()+"\n");
-	        }
-	        leftTxt.add("\n");
-	        leftScanner.close();
-			
-	    }
-	    catch (Exception e) {
-	    	System.exit(1);
-	    }
+			Scanner leftScanner = new Scanner(leftFile);
+			while(leftScanner.hasNext()){
+				leftTxt.add(leftScanner.nextLine()+"\n");
+			}
+			leftTxt.add("\n");
+			leftScanner.close();
+		 }
+		catch (Exception e) {
+			System.exit(1);
+		}
+		if(rightFile!=null){
+			for(Iterator<String> itr = rightTxt.iterator() ; itr.hasNext() ; ){
+				if(itr.next().equals("\0"))
+					itr.remove();
+			}
+			int leftSize=leftTxt.size();
+			int rightSize=rightTxt.size();
+			if(leftSize<rightSize){
+				for(int i=0;i<(rightSize-leftSize);i++){
+					leftTxt.add(leftTxt.size()-1,"\0");
+				}
+			}
+			else if(rightSize<leftSize){
+				for(int i=0;i<(leftSize-rightSize);i++){
+					rightTxt.add(rightTxt.size()-1,"\0");
+				}
+			}
+		}
 	}
 	
 	public void rightLoad(){	
@@ -114,7 +132,25 @@ public class SMergeModel {
 	    }
 	    catch (Exception e) {
 	    	System.exit(1); 
-	    }	
+	    }
+		if(leftFile!=null){
+			for(Iterator<String> itr = leftTxt.iterator() ; itr.hasNext() ; ){
+				if(itr.next().equals("\0"))
+					itr.remove();
+			}
+			int leftSize=leftTxt.size();
+			int rightSize=rightTxt.size();
+			if(leftSize<rightSize){
+				for(int i=0;i<(rightSize-leftSize);i++){
+					leftTxt.add(leftTxt.size()-1,"\0");
+				}
+			}
+			else if(rightSize<leftSize){
+				for(int i=0;i<(leftSize-rightSize);i++){
+					rightTxt.add(rightTxt.size()-1,"\0");
+				}
+			}
+		}
 	}	
 	
 	public void copyToLeft(String s){
