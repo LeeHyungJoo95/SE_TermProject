@@ -1,0 +1,11 @@
+.same {
+    -fx-background-color: rgba(255, 248, 33, .4);
+    }
+
+.different {
+    -fx-background-color: rgba(255, 159, 160, .4);
+}
+
+.vacant {
+    -fx-background-color: rgba(130, 130, 130, .4);
+}

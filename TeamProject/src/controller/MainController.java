@@ -41,7 +41,6 @@ import view.*;
 public class MainController implements Initializable {
 
 	private SMergeModel model = new SMergeModel();
-	int i = 0;
 	@FXML
 	private TableView tableArea;
 	
@@ -54,6 +53,8 @@ public class MainController implements Initializable {
 	@FXML
 	private TableColumn<HashMap, String> tableArea_L, tableArea_R;
 	
+	@FXML
+	private TextField textField;
 	
 	@FXML
 	private ImageView btnMergeto_L, btnMergeto_R;
@@ -74,14 +75,17 @@ public class MainController implements Initializable {
 	@FXML
 	public void mergeToLeft()
 	{	
-		model.copyToLeft();
+		model.copyToLeft(textField.getText());
+		textField.setText(textField.getPromptText());
 		setTable();
 	}
 	
 	@FXML
 	public void mergeToRight()
 	{
-		model.copyToRight();
+		System.out.println(textField.getText());
+		model.copyToRight(textField.getText());
+		textField.setText(textField.getPromptText());
 		setTable();
 	}
 	
@@ -130,14 +134,12 @@ public class MainController implements Initializable {
 		ArrayList<String> left = new ArrayList<String>();
 		left.add("a");
 		left.add("b");
-		left.add("\0");
+		left.add("c");
 		left.add("c");
 		left.add("d");
-		left.add("\n");
-		left.add("e");
-		left.add("\n");
-		left.add("\0");
-		left.add("\0");
+		left.add("d");
+		left.add("d");
+		left.add("d");
 		left.add("\n");
 		
 		ArrayList<String> right = new ArrayList<String>();
@@ -146,15 +148,39 @@ public class MainController implements Initializable {
 		right.add("\n");
 		right.add("b");
 		right.add("d");
-		right.add("\n");
-		right.add("f");
-		right.add("e");
-		right.add("e");
-		right.add("\0");
+		right.add("d");
+		right.add("d");
+		right.add("d");
 		right.add("\n");
 
 		model.setleftTxt(left);
 		model.setrightTxt(right);
+		
+		tableArea_L.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
+			@Override
+			public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
+			{
+				// TODO Auto-generated method stub
+				EditableTableCell tablecell = new EditableTableCell();
+				tablecell.getTextField().setOnKeyPressed(new EditHandler(tablecell));
+				
+				return tablecell;	
+			}
+			});
+	
+	
+		tableArea_R.setCellFactory(new Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>() {      
+		@Override
+		public TableCell<HashMap, String> call(TableColumn<HashMap, String> param)
+		{				// TODO Auto-generated method stub
+
+			EditableTableCell tablecell = new EditableTableCell();
+			tablecell.getTextField().setOnKeyPressed(new EditHandler(tablecell));
+			
+			return tablecell;	
+		}
+		});
+		
 		setTable();
 	}
 
@@ -186,6 +212,14 @@ public class MainController implements Initializable {
 	
 	public void setTable()
 	{
+		/*
+		if(model.getleftTxt().get(model.getleftTxt().size()-2).equals("\0") && model.getrightTxt().get(model.getrightTxt().size()-2).equals("\0"))
+		{
+			model.getleftTxt().remove(model.getleftTxt().size()-2);
+			model.getrightTxt().remove(model.getrightTxt().size()-2);
+
+		}
+		*/
 		ObservableList<HashMap> allData = FXCollections.observableArrayList();
 	
 		int leftsize = model.getleftTxt().size();
@@ -195,7 +229,6 @@ public class MainController implements Initializable {
 		
 		for(int i = 0; i < maxsize ; i++)
 		{
-			
 			HashMap<String, String> dataRow = new HashMap<>();
 			dataRow.put("index", String.valueOf(i));
 			dataRow.put("left", model.getleftTxt().get(i));
@@ -205,7 +238,6 @@ public class MainController implements Initializable {
 		
 		}
 		tableArea.setItems(allData);
-		
 		
 	}
 	
@@ -270,18 +302,17 @@ public class MainController implements Initializable {
 	@FXML
 	public void save_R()
 	{
+		
 	}
 	@FXML
 	public void save_All()
 	{
 		//not yet;;;
 	}
-
+	
 	@FXML
 	public void compare()
 	{
-		model.lcsDiff();
-		
 		if(model.getleftFile().exists() && model.getrightFile().exists())
 		{
 			menuMerge.setDisable(false);
@@ -289,60 +320,73 @@ public class MainController implements Initializable {
 			btnMergeto_R.setDisable(true);
 		}
 		
+		model.lcsDiff();
+		
 		tableArea_L.setCellFactory(column ->{return new EditableTableCell(){
 			
 			@Override
 	        protected void updateItem(String item, boolean empty) {
 				
-	            super.updateItem(item, empty);
-	            
+			
+				
 	            getStyleClass().setAll();
-	            if(model.gettxtBoolean().get(this.getTableRow().getIndex()))
-	            {
-	            	getStyleClass().add("same");
+	            try{
+	            	if(model.gettxtBoolean().get(this.getTableRow().getIndex()))
+	            	{
+	            		getStyleClass().add("same");
+	            	}
+	            	else if(model.gettxtBoolean().get(this.getTableRow().getIndex()) == false)
+	            	{
+	            		if(!model.getleftTxt().get(this.getTableRow().getIndex()).equals("\0"))
+	            			getStyleClass().add("different");
+	            	}
 	            }
-	            else if(model.gettxtBoolean().get(this.getTableRow().getIndex()) == false)
+	            catch(IndexOutOfBoundsException e)
 	            {
-	            	getStyleClass().add("different");
+	            	//Certainly! It doesn't care, anymore.
 	            }
 	            
 	            this.getTextField().setOnKeyPressed(new EditHandler(this));
+				
+	            super.updateItem(item, empty);
 	            
-	        }
-			
-			
-			
+	        }			
 		};});
-		
-			tableArea_R.setCellFactory(column ->{return new EditableTableCell(){
+
+		tableArea_R.setCellFactory(column ->{return new EditableTableCell(){
 			
 			@Override
 	        protected void updateItem(String item, boolean empty) {
 				
-	            super.updateItem(item, empty);
 	            
 	            getStyleClass().setAll();
-	            if(model.gettxtBoolean().get(this.getTableRow().getIndex()))
-	            {
-	            	getStyleClass().add("same");
+	            try{
+	            	if(model.gettxtBoolean().get(this.getTableRow().getIndex()))
+	            	{
+	            		getStyleClass().add("same");
+	            	}
+	            	else if(model.gettxtBoolean().get(this.getTableRow().getIndex()) == false)
+	            	{
+	            		if(!model.getrightTxt().get(this.getTableRow().getIndex()).equals("\0"))
+	            			getStyleClass().add("different");
+	            	}
 	            }
-	            else if(model.gettxtBoolean().get(this.getTableRow().getIndex()) == false)
+	            catch(IndexOutOfBoundsException e)
 	            {
-	            	getStyleClass().add("different");
+	            	//Certainly! It doesn't care, anymore.
 	            }
 	            
 	            this.getTextField().setOnKeyPressed(new EditHandler(this));
-	            
+				
+	            super.updateItem(item, empty);
+	                
 	        }
-			
-			
-			
 		};});
-		
+
+			System.out.println(model.gettxtBoolean());
 		setTable();
 
 	}
-	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -400,23 +444,18 @@ public class MainController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 				// TODO Auto-generated method stub
-				try{
-
 					if(event.getCode() == KeyCode.ENTER) {
-						
 						if(tablecell.getTableColumn().equals(tableArea_L)){
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText());
 							model.getleftTxt().add(tablecell.getTableRow().getIndex()+1, "\n");
-							model.getrightTxt().add("\0");
+							model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
 						}
 						else{
 							model.getrightTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText());
 							model.getrightTxt().add(tablecell.getTableRow().getIndex()+1, "\n");
-							model.getleftTxt().add("\0");
-						
-			                }
+							model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
 						}
-		             
+					}
 					else if (event.getCode() == KeyCode.ESCAPE) {
 						if(tablecell.getTableColumn().equals(tableArea_L)){
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText());
@@ -426,25 +465,19 @@ public class MainController implements Initializable {
 			            }
 						
 			        }
-					
 					else if(event.getCode() == KeyCode.BACK_SPACE && tablecell.getTextField().getText().equals(""))
 					{
 
 						if(tablecell.getTableColumn().equals(tableArea_L)){
-							model.getleftTxt().add("\0");
+							model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
 							model.getleftTxt().remove(tablecell.getTableRow().getIndex());
 						}
 						else{
-							model.getrightTxt().add("\0");
+							model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
 							model.getrightTxt().remove(tablecell.getTableRow().getIndex());
 						}
 					}
 					setTable();
-				}
-				catch(Exception S)
-				{
-					System.out.println(S);
-				}
 			}
 	
 	}

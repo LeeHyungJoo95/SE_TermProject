@@ -92,7 +92,7 @@ public class SMergeModel {
 	    	Scanner leftScanner = new Scanner(leftFile);
 	        while(leftScanner.hasNext()){
 	        	leftTxt.add(leftScanner.nextLine()+"\n");
-	          }
+	        }
 	        leftTxt.add("\n");
 	        leftScanner.close();
 			
@@ -100,13 +100,6 @@ public class SMergeModel {
 	    catch (Exception e) {
 	    	System.exit(1);
 	    }
-		if(leftTxt.size() < rightTxt.size())
-		{
-			while(leftTxt.size() != rightTxt.size())
-			{
-				leftTxt.add("\0");
-			}
-		}
 	}
 	
 	public void rightLoad(){	
@@ -122,54 +115,86 @@ public class SMergeModel {
 	    catch (Exception e) {
 	    	System.exit(1); 
 	    }	
-		
-		if(rightTxt.size() < leftTxt.size())
-		{
-			while(rightTxt.size() != leftTxt.size())
-			{
-				rightTxt.add("\0");
-			}
-		}
 	}	
 	
-	public void copyToLeft(){
-		for(int i = 0 ; i < txtBoolean.size() ; i++){
-			if(!txtBoolean.get(i)){
-				diffLeftTxt.set(i, diffRightTxt.get(i));
-			}
+	public void copyToLeft(String s){
+		
+		int input;
+		input = Integer.parseInt(s);
+		if(txtBoolean.get(input)){
+			leftTxt.set(input, rightTxt.get(input));
 		}
+		
+		else{
+			input--;
+			while(!txtBoolean.get(input)){
+				input--;
+			}
+			input++;
+			while(!txtBoolean.get(input)){
+				leftTxt.set(input, rightTxt.get(input));
+				input++;
+			}
+			
+			
+		}
+		
+		for( int i = 0; i < leftTxt.size(); i++){
+	         if(leftTxt.get(i).equals("\0")){
+	            leftTxt.remove(i);
+	         }
+	      }
+	      
+	      for( int i = 0; i < rightTxt.size(); i++){
+	         if(rightTxt.get(i).equals("\0")){
+	            rightTxt.remove(i);
+	         }
+	      }
+		
+		
+		
 	}
 	
 
-	public void copyToRight(){
-		for(int i = 0 ; i < txtBoolean.size() ; i++){
-			if(!txtBoolean.get(i)){
-				diffRightTxt.set(i, diffLeftTxt.get(i));
+	public void copyToRight(String s){
+
+		int input;
+		input = Integer.parseInt(s);
+		if(txtBoolean.get(input)){
+			rightTxt.set(input, leftTxt.get(input));
+		}
+		
+		else{
+			input--;
+			while(!txtBoolean.get(input)){
+				input--;
+			}
+			input++;
+			while(!txtBoolean.get(input)){
+				rightTxt.set(input, leftTxt.get(input));
+				input++;
 			}
 		}
+		for( int i = 0; i < leftTxt.size(); i++){
+	         if(leftTxt.get(i).equals("\0")){
+	            leftTxt.remove(i);
+	         }
+	      }
+	      
+	      for( int i = 0; i < rightTxt.size(); i++){
+	         if(rightTxt.get(i).equals("\0")){
+	            rightTxt.remove(i);
+	         }
+	      }
 	}
 	
 	
 	public void lcsDiff(){
-		for(int i = 0; i < leftTxt.size() ; i++)
-		{
-			if(leftTxt.get(i).equals("\0"))
-			{
-				leftTxt.remove(i);
-			}
-		}
-		for(int i = 0; i < rightTxt.size() ; i++)
-		{
-			if(rightTxt.get(i).equals("\0"))
-			{
-				rightTxt.remove(i);
-			}
-		}
-		txtBoolean = new ArrayList<Boolean>();
+		
 		int sizeofleftList = leftTxt.size();
 		int sizeofrightList = rightTxt.size();
 		int[][] lcsArray = new int[sizeofleftList+1][sizeofrightList+1];
-		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1이면 대각, 2면 왼쪽, 3이면 위 , 4 양쪽 에서 읽어온다
+		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1�씠硫� ��媛�, 2硫� �쇊履�, 3�씠硫� �쐞 , 4 �뼇履� �뿉�꽌 �씫�뼱�삩�떎
 		
 		for(int i = 1 ; i < sizeofleftList+1; i++){
 			for(int j = 1 ; j < sizeofrightList+1; j++){
@@ -193,12 +218,12 @@ public class SMergeModel {
 				}	
 			}	
 		}
-			//// 이 아래부터 backtracking
+			//// �씠 �븘�옒遺��꽣 backtracking
 			int i = sizeofleftList;
 			int j = sizeofrightList;
-			int past_i; // 이전 위치
-			int past_j; // 이전 위치
-			ArrayList<String> c_element = new ArrayList<String>(); // 공통원소 저장 수열
+			int past_i; // �씠�쟾 �쐞移�
+			int past_j; // �씠�쟾 �쐞移�
+			ArrayList<String> c_element = new ArrayList<String>(); // 怨듯넻�썝�냼 ���옣 �닔�뿴
 			
 			while( lcsArray[i][j] != 0){
 				if ( lcsDirection[i][j] == 1){
@@ -255,4 +280,5 @@ public class SMergeModel {
 				}
 			}
 		}	
-	}
+
+}
