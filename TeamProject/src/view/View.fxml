@@ -155,7 +155,7 @@
             <Image url="@/view/Images/SaveLeftFile.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="btnEdit_R" fitHeight="30.0" fitWidth="30.0" layoutX="489.0" layoutY="70.0" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="70.0">
+      <ImageView fx:id="btnEdit_R" fitHeight="30.0" fitWidth="30.0" layoutX="489.66597824096675" layoutY="70.19999999999999" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="144.80103263855005" AnchorPane.topAnchor="70.19999999999999">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -195,7 +195,7 @@
             <Image url="@/view/Images/SaveEdit.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="btnCompare" fitHeight="30.0" fitWidth="30.0" layoutX="314.0" layoutY="70.0" onMouseClicked="#compare" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="314.70000000000016" AnchorPane.topAnchor="30.0">
+      <ImageView fx:id="btnCompare" fitHeight="30.0" fitWidth="30.0" layoutX="313.0" layoutY="29.0" onMouseClicked="#compare" AnchorPane.topAnchor="29.0">
          <image>
             <Image url="@/view/Images/Compare.png" />
          </image>
@@ -203,7 +203,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge 열 입력." AnchorPane.topAnchor="70.0" />
+      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge 열 입력." AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="70.0" />
    </children>
    <padding>
       <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class SMergeModel {
@@ -44,7 +45,6 @@ public class SMergeModel {
 		rightPath = null;
 		leftTxt = new ArrayList<String>();
 		rightTxt = new ArrayList<String>();
-		txtBoolean=new ArrayList<Boolean>();
 	}
 	
 	public void leftSave(ArrayList<String> leftTxt){
@@ -89,17 +89,22 @@ public class SMergeModel {
 	public void leftLoad(){	
 		leftTxt = new ArrayList<String>();
 		try {
-	    	Scanner leftScanner = new Scanner(leftFile);
-	        while(leftScanner.hasNext()){
-	        	leftTxt.add(leftScanner.nextLine()+"\n");
-	        }
-	        leftTxt.add("\n");
-	        leftScanner.close();
+			Scanner leftScanner = new Scanner(leftFile);
+			while(leftScanner.hasNext()){
+				leftTxt.add(leftScanner.nextLine()+"\n");
+			}
+			leftTxt.add("\r\n");
+			leftScanner.close();
+		 }
+		catch (Exception e) {
+			System.exit(1);
+		}
+		if(rightPath!=null){
 			
-	    }
-	    catch (Exception e) {
-	    	System.exit(1);
-	    }
+			deleteGap();
+			fitLength();
+		}
+		
 	}
 	
 	public void rightLoad(){	
@@ -109,12 +114,16 @@ public class SMergeModel {
 	        while(rightScanner.hasNext()){
 	        	rightTxt.add(rightScanner.nextLine()+"\n");
 	        }
-	        rightTxt.add("\n");
+	        rightTxt.add("\r\n");
 	        rightScanner.close();
 	    }
 	    catch (Exception e) {
 	    	System.exit(1); 
-	    }	
+	    }
+		if(leftPath!=null){
+			deleteGap();
+			fitLength();
+		}
 	}	
 	
 	public void copyToLeft(String s){
@@ -137,22 +146,7 @@ public class SMergeModel {
 			}
 			
 			
-		}
-		
-		for( int i = 0; i < leftTxt.size(); i++){
-	         if(leftTxt.get(i).equals("\0")){
-	            leftTxt.remove(i);
-	         }
-	      }
-	      
-	      for( int i = 0; i < rightTxt.size(); i++){
-	         if(rightTxt.get(i).equals("\0")){
-	            rightTxt.remove(i);
-	         }
-	      }
-		
-		
-		
+		}		
 	}
 	
 
@@ -175,21 +169,14 @@ public class SMergeModel {
 				input++;
 			}
 		}
-		for( int i = 0; i < leftTxt.size(); i++){
-	         if(leftTxt.get(i).equals("\0")){
-	            leftTxt.remove(i);
-	         }
-	      }
-	      
-	      for( int i = 0; i < rightTxt.size(); i++){
-	         if(rightTxt.get(i).equals("\0")){
-	            rightTxt.remove(i);
-	         }
-	      }
 	}
 	
 	
 	public void lcsDiff(){
+		txtBoolean = new ArrayList<Boolean>();
+		
+		deleteGap();
+		
 		
 		int sizeofleftList = leftTxt.size();
 		int sizeofrightList = rightTxt.size();
@@ -281,4 +268,34 @@ public class SMergeModel {
 			}
 		}	
 
+	
+	
+	private void fitLength()
+	{
+		int leftSize=leftTxt.size();
+		int rightSize=rightTxt.size();
+		
+		if(leftSize<rightSize){
+			for(int i=0;i<(rightSize-leftSize);i++){
+				leftTxt.add(leftTxt.size()-1,"\0");
+			}
+		}
+		else if(rightSize<leftSize){
+			for(int i=0;i<(leftSize-rightSize);i++){
+				rightTxt.add(rightTxt.size()-1,"\0");
+			}
+		}
+	}
+	
+	private void deleteGap()
+	{
+		for(Iterator<String> itr = rightTxt.iterator() ; itr.hasNext() ; ){
+			if(itr.next().equals("\0"))
+				itr.remove();
+		}
+		for(Iterator<String> itr = leftTxt.iterator() ; itr.hasNext() ; ){
+			if(itr.next().equals("\0"))
+				itr.remove();
+		}
+	}
 }
