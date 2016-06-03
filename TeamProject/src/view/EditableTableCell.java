@@ -91,7 +91,6 @@ public class EditableTableCell extends TableCell<HashMap, String> {
       public void startEdit() {
           if (!isEmpty()) {
               super.startEdit();
-
               createTextField();
               setText(null);
               setGraphic(textField);

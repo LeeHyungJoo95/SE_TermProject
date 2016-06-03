@@ -12,8 +12,8 @@ public class SMergeModelTest {
 	public void testLoad() {
 		File file1 = new File("C:\\Users\\rhs12\\Desktop\\1.txt");
 		File file2 = new File("C:\\Users\\rhs12\\Desktop\\2.txt");
-		//Å×½ºÆ®ÇÏ·Á´Â ÅØ½ºÆ®ÆÄÀÏÀÇ À§Ä¡¸¦ ÀÔ·Â
-		//1°ú2´Â °°ÀºÅØ½ºÆ®, Ä¿¼­°¡ ¾îµðÀÖµçÁö »ó°üÀÌ ¾øÀ½
+		//ï¿½×½ï¿½Æ®ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ô·ï¿½
+		//1ï¿½ï¿½2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø½ï¿½Æ®, Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		model.setleftFile(file1);
 		model.leftLoad();
 		model.setrightFile(file2);
@@ -25,15 +25,15 @@ public class SMergeModelTest {
 	public void testRepeatLoad() {
 		File file1 = new File("C:\\Users\\rhs12\\Desktop\\1.txt");
 		File file2 = new File("C:\\Users\\rhs12\\Desktop\\2.txt");
-		//Å×½ºÆ®ÇÏ·Á´Â ÅØ½ºÆ®ÆÄÀÏÀÇ À§Ä¡¸¦ ÀÔ·Â
+		//ï¿½×½ï¿½Æ®ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ô·ï¿½
 		model.setleftFile(file1);
 		model.leftLoad();
 		model.leftLoad();
-		//°°ÀºÅØ½ºÆ®¸¦ ÇÏ³ª´Â µÎ¹ø ºÒ·¯µéÀÓ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Î¹ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		model.setrightFile(file2);
 		model.rightLoad();
 		assertEquals(model.getleftTxt(),model.getrightTxt());
-		//º¯°æÀü¿¡´Â fail, Áö±ÝÀº Á¤»óÀû 
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ fail, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	}
 }
 
