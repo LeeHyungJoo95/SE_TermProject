@@ -48,14 +48,13 @@ public class SMergeModel {
 	}
 	
 	public void leftSave(ArrayList<String> leftTxt){
-		this.leftTxt = leftTxt;
-		
 		try{
 			FileWriter l_writer = new FileWriter(leftFile);
 		                                                   
 			for(int i=0;i<leftTxt.size();i++){
 				if(i!=(leftTxt.size()-1))
-					l_writer.write(leftTxt.get(i).substring(0, leftTxt.get(i).length()-1)+"\r\n"); 
+					if(leftTxt.get(i)!="\0")
+						l_writer.write(leftTxt.get(i).substring(0, leftTxt.get(i).length()-1)+"\r\n"); 
 			}
 			l_writer.close();
 		}catch(FileNotFoundException e){
@@ -67,14 +66,13 @@ public class SMergeModel {
 	}
 	
 	public void rightSave(ArrayList<String> rightTxt){
-		this.rightTxt = rightTxt;
-		
 		try{
 			FileWriter r_writer = new FileWriter(rightFile);
 		                                                  
 			for(int i=0;i<rightTxt.size();i++){
 				if(i!=(rightTxt.size()-1))
-					r_writer.write(rightTxt.get(i).substring(0, rightTxt.get(i).length()-1)+"\r\n"); 
+					if(rightTxt.get(i)!="\0")
+						r_writer.write(rightTxt.get(i).substring(0, rightTxt.get(i).length()-1)+"\r\n"); 
 			}
 			
 			r_writer.close();
@@ -88,6 +86,7 @@ public class SMergeModel {
 	
 	public void leftLoad(){	
 		leftTxt = new ArrayList<String>();
+		//leftPath=leftFile.getAbsolutePath();
 		try {
 			Scanner leftScanner = new Scanner(leftFile);
 			while(leftScanner.hasNext()){
@@ -109,6 +108,7 @@ public class SMergeModel {
 	
 	public void rightLoad(){	
 		rightTxt = new ArrayList<String>();
+		//rightPath=rightFile.getAbsolutePath();
 		try {
 	    	Scanner rightScanner = new Scanner(rightFile);
 	        while(rightScanner.hasNext()){
@@ -181,7 +181,7 @@ public class SMergeModel {
 		int sizeofleftList = leftTxt.size();
 		int sizeofrightList = rightTxt.size();
 		int[][] lcsArray = new int[sizeofleftList+1][sizeofrightList+1];
-		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1ï¿½ì” ï§ï¿½ ï¿½ï¿½åª›ï¿½, 2ï§ï¿½ ï¿½ì‡Šï§Ÿï¿½, 3ï¿½ì” ï§ï¿½ ï¿½ì , 4 ï¿½ë¼‡ï§Ÿï¿½ ï¿½ë¿‰ï¿½ê½Œ ï¿½ì”«ï¿½ë¼±ï¿½ì‚©ï¿½ë–
+		int[][] lcsDirection = new int[sizeofleftList+1][sizeofrightList+1]; // 1? ?Œëµ ç­Œë¡³ì˜™ ? ?™?˜™?¶?‰?˜™, 2ç­Œë¡³?˜™ ? ?Œ?‡¢ç­Œì?˜™, 3? ?Œëµ ç­Œë¡³ì˜™ ? ?Œë§? , 4 ? ?ˆ?¶ç­Œì?˜™ ? ?ˆ?“ ? ?„?£ ? ?Œëµ?? ?ˆ?„ ? ?Œê¶”å ?ˆë¼?
 		
 		for(int i = 1 ; i < sizeofleftList+1; i++){
 			for(int j = 1 ; j < sizeofrightList+1; j++){
@@ -205,12 +205,12 @@ public class SMergeModel {
 				}	
 			}	
 		}
-			//// ï¿½ì”  ï¿½ë¸˜ï¿½ì˜’éºï¿½ï¿½ê½£ backtracking
+			//// ? ?Œëµ? ? ?ˆ?ˆ¡? ?Œ?‚‹ï¿½ê²«? ?™?˜™?‹‘ï¿? backtracking
 			int i = sizeofleftList;
 			int j = sizeofrightList;
-			int past_i; // ï¿½ì” ï¿½ìŸ¾ ï¿½ìç§»ï¿½
-			int past_j; // ï¿½ì” ï¿½ìŸ¾ ï¿½ìç§»ï¿½
-			ArrayList<String> c_element = new ArrayList<String>(); // æ€¨ë“¯ë„»ï¿½ìï¿½ëƒ¼ ï¿½ï¿½ï¿½ì˜£ ï¿½ë‹”ï¿½ë¿´
+			int past_i; // ? ?Œëµ å ?Œ?ˆ ? ?Œë§„ç‡?‚¼?˜™
+			int past_j; // ? ?Œëµ å ?Œ?ˆ ? ?Œë§„ç‡?‚¼?˜™
+			ArrayList<String> c_element = new ArrayList<String>(); // ï¿½â‘¤ë²ï¿½ê½°å ?Œ?œš? ?ˆêº? ? ?™?˜™? ?Œ?‚¢ ? ?ˆ?•¾? ?ˆ??
 			
 			while( lcsArray[i][j] != 0){
 				if ( lcsDirection[i][j] == 1){
