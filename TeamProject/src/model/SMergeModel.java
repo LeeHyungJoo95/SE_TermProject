@@ -187,6 +187,15 @@ public class SMergeModel {
 	         }
 	      }
 		
+	      while(rightTxt.size() != leftTxt.size()){
+	    	  if(rightTxt.size() > leftTxt.size()){
+	    		  leftTxt.add("\0");
+	    	  }
+	    	  
+	    	  else{
+	    		  rightTxt.add("\0");
+	    	  }
+	      }
 		
 		
 	}
@@ -211,6 +220,7 @@ public class SMergeModel {
 				input++;
 			}
 		}
+		
 		for( int i = 0; i < leftTxt.size(); i++){
 	         if(leftTxt.get(i).equals("\0")){
 	            leftTxt.remove(i);
@@ -221,6 +231,16 @@ public class SMergeModel {
 	         if(rightTxt.get(i).equals("\0")){
 	            rightTxt.remove(i);
 	         }
+	      }
+	      
+	      while(rightTxt.size() != leftTxt.size()){
+	    	  if(rightTxt.size() > leftTxt.size()){
+	    		  leftTxt.add("\0");
+	    	  }
+	    	  
+	    	  else{
+	    		  rightTxt.add("\0");
+	    	  }
 	      }
 	}
 	
