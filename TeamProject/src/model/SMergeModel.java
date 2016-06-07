@@ -153,10 +153,58 @@ public class SMergeModel {
 		}
 	}	
 	
-	public void copyToLeft(String s){
+	private boolean isParsable(String s){
+	    boolean parsable = true;
+	    try{
+	        Integer.parseInt(s);
+	    }catch(NumberFormatException e){
+	        parsable = false;
+	    }
+	    return parsable;
+	}
+	
+
+	
+	public boolean copyToLeft(String s){
 		
 		int input;
+		if(s.equals("\0")){
+			leftTxt = new ArrayList<String>(rightTxt);
+			for( int i = 0; i < leftTxt.size(); i++){
+		         if(leftTxt.get(i).equals("\0")){
+		            leftTxt.remove(i);
+		         }
+		      }
+		      
+		      for( int i = 0; i < rightTxt.size(); i++){
+		         if(rightTxt.get(i).equals("\0")){
+		            rightTxt.remove(i);
+		         }
+		      }
+			
+		      while(rightTxt.size() != leftTxt.size()){
+		    	  if(rightTxt.size() > leftTxt.size()){
+		    		  leftTxt.add("\0");
+		    	  }
+		    	  
+		    	  else{
+		    		  rightTxt.add("\0");
+		    	  }
+		      }
+		      return true;
+		}
+		
+		if(!isParsable(s)){
+			return false;
+		}
+		
 		input = Integer.parseInt(s);
+		
+		if(input < 0 || input > txtBoolean.size() - 1){
+			return false;
+		}
+		
+		
 		if(txtBoolean.get(input)){
 			leftTxt.set(input, rightTxt.get(input));
 		}
@@ -196,15 +244,53 @@ public class SMergeModel {
 	    		  rightTxt.add("\0");
 	    	  }
 	      }
+	      return true;
 		
 		
 	}
 	
 
-	public void copyToRight(String s){
+	public boolean copyToRight(String s){
 
 		int input;
+		
+		
+		if(s.equals("\0")){
+			rightTxt = new ArrayList<String>(leftTxt);
+			for( int i = 0; i < leftTxt.size(); i++){
+		         if(leftTxt.get(i).equals("\0")){
+		            leftTxt.remove(i);
+		         }
+		      }
+		      
+		      for( int i = 0; i < rightTxt.size(); i++){
+		         if(rightTxt.get(i).equals("\0")){
+		            rightTxt.remove(i);
+		         }
+		      }
+			
+		      while(rightTxt.size() != leftTxt.size()){
+		    	  if(rightTxt.size() > leftTxt.size()){
+		    		  leftTxt.add("\0");
+		    	  }
+		    	  
+		    	  else{
+		    		  rightTxt.add("\0");
+		    	  }
+		      }
+		      return true;
+		}
+		
+		if(!isParsable(s)){
+			return false;
+		}
+		
 		input = Integer.parseInt(s);
+		
+		if(input < 0 || input > txtBoolean.size() - 1){
+			return false;
+		}
+		
 		if(txtBoolean.get(input)){
 			rightTxt.set(input, leftTxt.get(input));
 		}
@@ -242,6 +328,8 @@ public class SMergeModel {
 	    		  rightTxt.add("\0");
 	    	  }
 	      }
+	      
+	      return true;
 	}
 	
 	
