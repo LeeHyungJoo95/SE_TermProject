@@ -207,6 +207,7 @@ public class SMergeModel {
 		
 		if(txtBoolean.get(input)){
 			leftTxt.set(input, rightTxt.get(input));
+			return true;
 		}
 		
 		else{
@@ -293,6 +294,7 @@ public class SMergeModel {
 		
 		if(txtBoolean.get(input)){
 			rightTxt.set(input, leftTxt.get(input));
+			return true;
 		}
 		
 		else{
