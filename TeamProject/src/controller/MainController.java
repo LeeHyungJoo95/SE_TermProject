@@ -76,18 +76,34 @@ public class MainController implements Initializable {
 	@FXML
 	public void mergeToLeft()
 	{	
-		model.copyToLeft(textField.getText());
 		textField.setText("");
 		tableArea.requestFocus();
+		
+		if(!model.copyToLeft(textField.getText()))
+		{
+			textField.setPromptText("인덱스 범위를 벗어남.");
+		}
+		else
+		{
+			textField.setPromptText("Merge 열 입력.");
+		}
+		
 		setTable();
 	}
 	
 	@FXML
 	public void mergeToRight()
 	{
-		model.copyToRight(textField.getText());	
 		textField.setText("");
 		tableArea.requestFocus();
+		if(!model.copyToRight(textField.getText()))
+		{
+			textField.setPromptText("인덱스 범위를 벗어남.");
+		}
+		else
+		{
+			textField.setPromptText("Merge 열 입력.");
+		}
 		setTable();
 	}
 	
@@ -272,20 +288,20 @@ public class MainController implements Initializable {
 		            this.getTextField().setOnKeyPressed(new EditHandler(this));
 		            
 		        }
-				
+
 				@Override
 				public void cancelEdit()//No cancel. Change!
 				{
 					String changed = this.getTextField().getText();
 					super.cancelEdit();
 
-					
-					model.getleftTxt().set(this.getTableRow().getIndex(), changed);
-					
+					if(this.getTableColumn().equals(tableArea_L))
+						model.getleftTxt().set(this.getTableRow().getIndex(), changed);
+					else
+						model.getrightTxt().set(this.getTableRow().getIndex(), changed);
 					
 					setTable();
 				}
-				
 				
 								
 			};});
@@ -319,16 +335,22 @@ public class MainController implements Initializable {
 					   
 		        }
 				
+
 				@Override
 				public void cancelEdit()//No cancel. Change!
 				{
 					String changed = this.getTextField().getText();
 					super.cancelEdit();
 
-					model.getrightTxt().set(this.getTableRow().getIndex(),  changed);
-
+					if(this.getTableColumn().equals(tableArea_L))
+						model.getleftTxt().set(this.getTableRow().getIndex(), changed);
+					else
+						model.getrightTxt().set(this.getTableRow().getIndex(), changed);
+					
+					
 					setTable();
 				}
+				
 			};});
 		
 			model.lcsDiff();
@@ -365,21 +387,18 @@ public class MainController implements Initializable {
 			// TODO Auto-generated method stub
 			EditableTableCell tablecell = new EditableTableCell(){
 
+
 				@Override
 				public void cancelEdit()//No cancel. Change!
 				{
 					String changed = this.getTextField().getText();
 					super.cancelEdit();
-
-					
+				
 					if(this.getTableColumn().equals(tableArea_L))
-					{			
 						model.getleftTxt().set(this.getTableRow().getIndex(), changed);
-					}
 					else
-					{
-						model.getrightTxt().set(this.getTableRow().getIndex(),  changed);
-					}
+						model.getrightTxt().set(this.getTableRow().getIndex(), changed);
+					
 					
 					setTable();
 				}
@@ -406,44 +425,31 @@ public class MainController implements Initializable {
 				// TODO Auto-generated method stub
 					if(event.getCode() == KeyCode.ENTER) {
 						try{
-						if(tablecell.getTableColumn().equals(tableArea_L)){//왼쪽 테이블
-							System.out.println(tablecell.getTextField().getCaretPosition());
-							if(tablecell.getTextField().getCaretPosition() == 0)//커서가 맨앞일 때
-							{
-								model.getleftTxt().add(tablecell.getTableRow().getIndex(), "\n");
-								model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
 							
-							}
-							else//커서가 맨앞이 아닐 때.
-							{	
+						if(tablecell.getTableColumn().equals(tableArea_L)){//왼쪽 테이블
+							
 								String str = tablecell.getTextField().getText();
-								String front = str.substring(0, tablecell.getTextField().getCaretPosition())+"\n";
+								String front = str.substring(0, tablecell.getTextField().getCaretPosition());
 								String back = str.substring(tablecell.getTextField().getCaretPosition(), tablecell.getTextField().getText().length());
 								
+								tablecell.getTextField().setText(front);
 								model.getleftTxt().set(tablecell.getTableRow().getIndex(), front);
 								model.getleftTxt().add(tablecell.getTableRow().getIndex()+1, back);
-								model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
-							
-							}
+								model.getrightTxt().add("\0");
 						}
 						else{//오른쪽 테이블
-							if(tablecell.getTextField().getCaretPosition() == 0)//커서가 맨 앞일 떄.
-							{
-								model.getrightTxt().add(tablecell.getTableRow().getIndex(), "\n");
-								model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
 							
-							}
-							else//커서가 맨앞이 아닐 때
-							{
 								String str = tablecell.getTextField().getText();
-								String front = str.substring(0, tablecell.getTextField().getCaretPosition())+"\n";
+								String front = str.substring(0, tablecell.getTextField().getCaretPosition());
 								String back = str.substring(tablecell.getTextField().getCaretPosition(), tablecell.getTextField().getText().length());
 								
+								tablecell.getTextField().setText(front);
 								model.getrightTxt().set(tablecell.getTableRow().getIndex(), front);
 								model.getrightTxt().add(tablecell.getTableRow().getIndex()+1, back);
-								model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
+								model.getleftTxt().add("\0");
 							}	
-						}
+
+						
 						}
 						catch(IndexOutOfBoundsException Idontknow)
 						{
@@ -451,6 +457,8 @@ public class MainController implements Initializable {
 						}
 					}
 					else if (event.getCode() == KeyCode.ESCAPE) {
+
+						System.out.println("ESC");
 						if(tablecell.getTableColumn().equals(tableArea_L)){//왼쪽
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText());
 						}
@@ -461,33 +469,34 @@ public class MainController implements Initializable {
 			        }
 					else if(event.getCode() == KeyCode.BACK_SPACE && tablecell.getTextField().getText().equals(""))
 					{
-
+						System.out.println("BS");
 						if(tablecell.getTableColumn().equals(tableArea_L)){
-							model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
+							model.getleftTxt().add("\0");
 							model.getleftTxt().remove(tablecell.getTableRow().getIndex());
 						}
 						else{
-							model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
+							model.getrightTxt().add("\0");
 							model.getrightTxt().remove(tablecell.getTableRow().getIndex());
 						}
 					}
 					else if(event.getCode() == KeyCode.DELETE && tablecell.getTextField().getCaretPosition() == tablecell.getTextField().getText().length())
 					{
+
+						System.out.println("DEL");
 						if(tablecell.getTableColumn().equals(tableArea_L)){
-							model.getleftTxt().add(model.getleftTxt().size()-1, "\0");
+							model.getleftTxt().add("\0");
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText()+model.getleftTxt().get(tablecell.getTableRow().getIndex()+1));
-							//맨뒤에 테스트해봐야함.
 							model.getleftTxt().remove(tablecell.getTableRow().getIndex()+1);
 						}
-						else{
-							model.getrightTxt().add(model.getrightTxt().size()-1, "\0");
+						else if(tablecell.getTableColumn().equals(tableArea_R)){
+							model.getrightTxt().add("\0");
 							model.getrightTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText()+model.getrightTxt().get(tablecell.getTableRow().getIndex()+1));
 							
-							model.getrightTxt().remove(tablecell.getTableRow().getIndex());
+							model.getrightTxt().remove(tablecell.getTableRow().getIndex()+1);
 						}
 					}
-					disableMerge();
 					setTable();
+					disableMerge();
 
 			}
 	

@@ -99,7 +99,6 @@ public class SMergeModel {
 			while(leftScanner.hasNext()){
 				leftTxt.add(leftScanner.nextLine()+"\n");
 			}
-			leftTxt.add("\r\n");
 			leftScanner.close();
 		 }
 		catch (Exception e) {
@@ -120,7 +119,6 @@ public class SMergeModel {
 	        while(rightScanner.hasNext()){
 	        	rightTxt.add(rightScanner.nextLine()+"\n");
 	        }
-	        rightTxt.add("\r\n");
 	        rightScanner.close();
 	    }
 	    catch (Exception e) {
@@ -132,7 +130,7 @@ public class SMergeModel {
 		}
 	}	
 	
-	public void copyToLeft(String s){
+	public boolean copyToLeft(String s){
 		
 		int input;
 		input = Integer.parseInt(s);
@@ -153,10 +151,11 @@ public class SMergeModel {
 			
 			
 		}		
+		return true;
 	}
 	
 
-	public void copyToRight(String s){
+	public boolean copyToRight(String s){
 
 		int input;
 		input = Integer.parseInt(s);
@@ -175,10 +174,14 @@ public class SMergeModel {
 				input++;
 			}
 		}
+		return true;
 	}
 	
 	
 	public void lcsDiff(){
+		
+		leftTxt.add("\r\n");
+		rightTxt.add("\r\n");
 		
 		txtBoolean = new ArrayList<Boolean>();
 		
@@ -273,6 +276,10 @@ public class SMergeModel {
 					index = index + 1;
 				}
 			}
+
+			leftTxt.remove("\r\n");
+			rightTxt.remove("\r\n");
+			txtBoolean.remove(txtBoolean.size()-1);
 		}	
 
 	
@@ -284,12 +291,12 @@ public class SMergeModel {
 		
 		if(leftSize<rightSize){
 			for(int i=0;i<(rightSize-leftSize);i++){
-				leftTxt.add(leftTxt.size()-1,"\0");
+				leftTxt.add(leftTxt.size(),"\0");
 			}
 		}
 		else if(rightSize<leftSize){
 			for(int i=0;i<(leftSize-rightSize);i++){
-				rightTxt.add(rightTxt.size()-1,"\0");
+				rightTxt.add(rightTxt.size(),"\0");
 			}
 		}
 	}
