@@ -11,23 +11,24 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class EditableTableCell extends TableCell<HashMap, String> {
       
-	
-	  private TextField textField;
+		
+	  private TextArea textField;
 
-	  public TextField getTextField()
+	  public TextArea getTextField()
 	  {
 		  return textField;
 	  }
 	  
 	  public EditableTableCell()
 	  {
-		  textField = new TextField();
+		  textField = new TextArea();
 		  
 		  textField.focusedProperty().addListener(new ChangeListener<Boolean>(){
           @Override
@@ -90,16 +91,19 @@ public class EditableTableCell extends TableCell<HashMap, String> {
       @Override
       public void startEdit() {
           if (!isEmpty()) {
+
               super.startEdit();
               createTextField();
               setText(null);
               setGraphic(textField);
+              textField.setPrefHeight(10);
               textField.selectAll();
           }
       }
 
       @Override
       public void cancelEdit() {
+    	  System.out.println("cancel");
     	  super.cancelEdit();
     	  setText(textField.getText());    	  
     	  setGraphic(null);
@@ -111,9 +115,7 @@ public class EditableTableCell extends TableCell<HashMap, String> {
 
           textField.setText(getString());
           textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2);
-          
-		  
-      }
+		 }
 
       private String getString() {
           return (getItem() == null) ? "" : getItem().toString();

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.swing.event.DocumentEvent.EventType;
 
@@ -15,6 +16,7 @@ import com.sun.javafx.scene.control.behavior.TableCellBehavior;
 import com.sun.javafx.scene.control.skin.TableCellSkin;
 import com.sun.javafx.scene.control.skin.TableCellSkinBase;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +24,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,6 +33,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -76,35 +81,36 @@ public class MainController implements Initializable {
 	@FXML
 	public void mergeToLeft()
 	{	
-		textField.setText("");
-		tableArea.requestFocus();
-		
 		if(!model.copyToLeft(textField.getText()))
 		{
 			textField.setPromptText("인덱스 범위를 벗어남.");
 		}
 		else
 		{
-			textField.setPromptText("Merge 열 입력.");
+			textField.setPromptText("Merge할 행 입력.");
 		}
 		
 		setTable();
+		textField.setText("");
+		tableArea.requestFocus();
+		
 	}
 	
 	@FXML
 	public void mergeToRight()
 	{
-		textField.setText("");
-		tableArea.requestFocus();
 		if(!model.copyToRight(textField.getText()))
 		{
 			textField.setPromptText("인덱스 범위를 벗어남.");
 		}
 		else
 		{
-			textField.setPromptText("Merge 열 입력.");
+			textField.setPromptText("Merge할 행 입력.");
 		}
 		setTable();
+		textField.setText("");
+		tableArea.requestFocus();
+		
 	}
 	
 	@FXML
@@ -141,6 +147,7 @@ public class MainController implements Initializable {
 			{
 				initialize(null, null);
 				setTable();
+				btnCompare.setDisable(false);
 			}
 		}
 		catch(NullPointerException e){
@@ -164,6 +171,8 @@ public class MainController implements Initializable {
 			{
 				initialize(null, null);
 				setTable();
+				btnCompare.setDisable(false);
+				
 			}
 		}
 		catch(NullPointerException e){
@@ -207,7 +216,8 @@ public class MainController implements Initializable {
 	
 	@FXML
 	public void set_L(TableColumn.CellEditEvent<HashMap, String> t) {
-		  ((HashMap)t.getTableView().getItems().get(
+		  
+		((HashMap)t.getTableView().getItems().get(
                   t.getTablePosition().getRow())).put("left", t.getNewValue());
 			model.getleftTxt().set(t.getTablePosition().getRow(), t.getNewValue());
 			disableMerge();
@@ -218,7 +228,7 @@ public class MainController implements Initializable {
 		
 		  ((HashMap)t.getTableView().getItems().get(
                   t.getTablePosition().getRow())).put("right", t.getNewValue());
-		  	model.getleftTxt().set(t.getTablePosition().getRow(), t.getNewValue());
+		  	model.getrightTxt().set(t.getTablePosition().getRow(), t.getNewValue());
 		  	disableMerge();
 	}
 	
@@ -234,13 +244,14 @@ public class MainController implements Initializable {
 	@FXML
 	public void save_L()
 	{
+		model.leftSave();
 		
 	}
 	
 	@FXML
 	public void save_R()
 	{
-		
+		model.rightSave();
 	}
 
 	@FXML
@@ -251,7 +262,9 @@ public class MainController implements Initializable {
 	
 	@FXML
 	public void compare()
-	{
+	{	
+		tableArea.requestFocus();
+
 		if(model.getleftFile().exists() && model.getrightFile().exists())
 		{
 			menuMerge.setDisable(false);
@@ -292,6 +305,7 @@ public class MainController implements Initializable {
 				@Override
 				public void cancelEdit()//No cancel. Change!
 				{
+					
 					String changed = this.getTextField().getText();
 					super.cancelEdit();
 
@@ -339,6 +353,7 @@ public class MainController implements Initializable {
 				@Override
 				public void cancelEdit()//No cancel. Change!
 				{
+					
 					String changed = this.getTextField().getText();
 					super.cancelEdit();
 
@@ -374,8 +389,8 @@ public class MainController implements Initializable {
 		tableArea_Index.setCellValueFactory(new MapValueFactory("index"));
 		tableArea_L.setCellValueFactory(new MapValueFactory("left"));
 		tableArea_R.setCellValueFactory(new MapValueFactory("right"));
-		
-		}
+
+	}
 	
 	
 	private class callback implements Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>
@@ -412,6 +427,8 @@ public class MainController implements Initializable {
 	}
 		
 	private class EditHandler implements EventHandler<KeyEvent>
+
+	
 	{
 		EditableTableCell tablecell;
 		
@@ -449,16 +466,13 @@ public class MainController implements Initializable {
 								model.getleftTxt().add("\0");
 							}	
 
-						
+						tableArea.requestFocus();
 						}
 						catch(IndexOutOfBoundsException Idontknow)
 						{
-							
 						}
 					}
 					else if (event.getCode() == KeyCode.ESCAPE) {
-
-						System.out.println("ESC");
 						if(tablecell.getTableColumn().equals(tableArea_L)){//왼쪽
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText());
 						}
@@ -469,7 +483,6 @@ public class MainController implements Initializable {
 			        }
 					else if(event.getCode() == KeyCode.BACK_SPACE && tablecell.getTextField().getText().equals(""))
 					{
-						System.out.println("BS");
 						if(tablecell.getTableColumn().equals(tableArea_L)){
 							model.getleftTxt().add("\0");
 							model.getleftTxt().remove(tablecell.getTableRow().getIndex());
@@ -481,8 +494,6 @@ public class MainController implements Initializable {
 					}
 					else if(event.getCode() == KeyCode.DELETE && tablecell.getTextField().getCaretPosition() == tablecell.getTextField().getText().length())
 					{
-
-						System.out.println("DEL");
 						if(tablecell.getTableColumn().equals(tableArea_L)){
 							model.getleftTxt().add("\0");
 							model.getleftTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText()+model.getleftTxt().get(tablecell.getTableRow().getIndex()+1));
@@ -491,16 +502,20 @@ public class MainController implements Initializable {
 						else if(tablecell.getTableColumn().equals(tableArea_R)){
 							model.getrightTxt().add("\0");
 							model.getrightTxt().set(tablecell.getTableRow().getIndex(), tablecell.getTextField().getText()+model.getrightTxt().get(tablecell.getTableRow().getIndex()+1));
-							
 							model.getrightTxt().remove(tablecell.getTableRow().getIndex()+1);
 						}
 					}
 					setTable();
 					disableMerge();
-
 			}
 	
 	}
+
+
+	
 }
+
+
+
 
 

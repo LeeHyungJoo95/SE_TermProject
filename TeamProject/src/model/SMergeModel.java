@@ -53,15 +53,13 @@ public class SMergeModel {
 		rightTxt = new ArrayList<String>();
 	}
 	
-	public void leftSave(ArrayList<String> leftTxt){
-		this.leftTxt = leftTxt;
-		
+	public void leftSave(){
 		try{
 			FileWriter l_writer = new FileWriter(leftFile);
 		                                                   
 			for(int i=0;i<leftTxt.size();i++){
-				if(i!=(leftTxt.size()-1))
-					l_writer.write(leftTxt.get(i).substring(0, leftTxt.get(i).length()-1)+"\r\n"); 
+				if(leftTxt.get(i)!="\0")
+					l_writer.write(leftTxt.get(i)+"\r\n"); 
 			}
 			l_writer.close();
 		}catch(FileNotFoundException e){
@@ -72,15 +70,13 @@ public class SMergeModel {
 		}		
 	}
 	
-	public void rightSave(ArrayList<String> rightTxt){
-		this.rightTxt = rightTxt;
-		
+	public void rightSave(){
 		try{
 			FileWriter r_writer = new FileWriter(rightFile);
 		                                                  
 			for(int i=0;i<rightTxt.size();i++){
-				if(i!=(rightTxt.size()-1))
-					r_writer.write(rightTxt.get(i).substring(0, rightTxt.get(i).length()-1)+"\r\n"); 
+				if(rightTxt.get(i)!="\0")
+					r_writer.write(rightTxt.get(i)+"\r\n"); 
 			}
 			
 			r_writer.close();
@@ -97,7 +93,7 @@ public class SMergeModel {
 		try {
 			Scanner leftScanner = new Scanner(leftFile);
 			while(leftScanner.hasNext()){
-				leftTxt.add(leftScanner.nextLine()+"\n");
+				leftTxt.add(leftScanner.nextLine());
 			}
 			leftScanner.close();
 		 }
@@ -117,7 +113,7 @@ public class SMergeModel {
 		try {
 	    	Scanner rightScanner = new Scanner(rightFile);
 	        while(rightScanner.hasNext()){
-	        	rightTxt.add(rightScanner.nextLine()+"\n");
+	        	rightTxt.add(rightScanner.nextLine());
 	        }
 	        rightScanner.close();
 	    }
@@ -130,12 +126,54 @@ public class SMergeModel {
 		}
 	}	
 	
+	private boolean isParsable(String s){
+	    boolean parsable = true;
+	    try{
+	        Integer.parseInt(s);
+	    }catch(NumberFormatException e){
+	        parsable = false;
+	    }
+	    return parsable;
+	}
+	
+
+	
 	public boolean copyToLeft(String s){
 		
 		int input;
+		if(s.equals("\0")){
+			leftTxt = new ArrayList<String>(rightTxt);
+			
+			for( int i = 0; i < leftTxt.size(); i++){
+		         if(leftTxt.get(i).equals("\0")){
+		            leftTxt.remove(i);
+		         }
+		      }
+		      
+		      for( int i = 0; i < rightTxt.size(); i++){
+		         if(rightTxt.get(i).equals("\0")){
+		            rightTxt.remove(i);
+		         }
+		      }
+			
+		      fitLength();
+		      return true;
+		}
+		
+		if(!isParsable(s)){
+			return false;
+		}
+		
 		input = Integer.parseInt(s);
+		
+		if(input < 0 || input > txtBoolean.size() - 1){
+			return false;
+		}
+		
+		
 		if(txtBoolean.get(input)){
 			leftTxt.set(input, rightTxt.get(input));
+			return true;
 		}
 		
 		else{
@@ -150,17 +188,51 @@ public class SMergeModel {
 			}
 			
 			
-		}		
-		return true;
+		}
+		
+	      fitLength();
+	      return true;
+		
+		
 	}
 	
 
 	public boolean copyToRight(String s){
 
 		int input;
+		
+		
+		if(s.equals("\0")){
+			rightTxt = new ArrayList<String>(leftTxt);
+			for( int i = 0; i < leftTxt.size(); i++){
+		         if(leftTxt.get(i).equals("\0")){
+		            leftTxt.remove(i);
+		         }
+		      }
+		      
+		      for( int i = 0; i < rightTxt.size(); i++){
+		         if(rightTxt.get(i).equals("\0")){
+		            rightTxt.remove(i);
+		         }
+		      }
+
+		      fitLength();
+		      return true;
+		}
+		
+		if(!isParsable(s)){
+			return false;
+		}
+		
 		input = Integer.parseInt(s);
+		
+		if(input < 0 || input > txtBoolean.size() - 1){
+			return false;
+		}
+		
 		if(txtBoolean.get(input)){
 			rightTxt.set(input, leftTxt.get(input));
+			return true;
 		}
 		
 		else{
@@ -174,7 +246,10 @@ public class SMergeModel {
 				input++;
 			}
 		}
-		return true;
+		
+		fitLength();
+	      
+	      return true;
 	}
 	
 	

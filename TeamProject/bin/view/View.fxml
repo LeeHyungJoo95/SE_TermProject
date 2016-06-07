@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="465.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <MenuBar layoutX="3.0" layoutY="-1.0" prefHeight="29.0" prefWidth="656.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <menus>
@@ -105,11 +105,11 @@
             <Insets />
          </opaqueInsets>
       </MenuBar>
-      <TableView fx:id="tableArea" editable="true" layoutX="75.0" layoutY="99.0" prefHeight="326.0" prefWidth="540.0" stylesheets="@/view/theme.css" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="tableArea" editable="true" layoutX="20.0" layoutY="115.0" prefHeight="325.0" prefWidth="616.0" stylesheets="@/view/theme.css" AnchorPane.bottomAnchor="25.200000000000045" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="115.0">
          <columns>
-            <TableColumn fx:id="tableArea_Index" editable="false" maxWidth="50.0" minWidth="30.0" prefWidth="30.0" sortable="false" />
-            <TableColumn fx:id="tableArea_L" editable="false" minWidth="270.0" onEditCommit="#set_L" prefWidth="270.0" sortable="false" text="Untitled" />
-            <TableColumn fx:id="tableArea_R" editable="false" minWidth="270.0" onEditCommit="#set_R" prefWidth="270.0" sortable="false" text="Untitled" />
+            <TableColumn fx:id="tableArea_Index" editable="false" maxWidth="60.0" minWidth="40.0" prefWidth="40.0" sortable="false" />
+            <TableColumn fx:id="tableArea_L" editable="false" minWidth="288.0" onEditCommit="#set_L" prefWidth="288.0" sortable="false" text="Untitled" />
+            <TableColumn fx:id="tableArea_R" editable="false" minWidth="288.0" onEditCommit="#set_R" prefWidth="288.0" sortable="false" text="Untitled" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -187,15 +187,7 @@
             <Image url="@/view/Images/SaveEdit.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="btnSaveEdit_R" fitHeight="30.0" fitWidth="45.0" layoutX="489.0" layoutY="70.0" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="70.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <image>
-            <Image url="@/view/Images/SaveEdit.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="btnCompare" fitHeight="30.0" fitWidth="30.0" layoutX="313.0" layoutY="29.0" onMouseClicked="#compare" AnchorPane.topAnchor="29.0">
+      <ImageView fx:id="btnCompare" disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="511.0" layoutY="34.0" onMouseClicked="#compare" AnchorPane.topAnchor="34.0">
          <image>
             <Image url="@/view/Images/Compare.png" />
          </image>
@@ -203,7 +195,16 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge 열 입력." AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="70.0" />
+      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge할 행 입력." AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="70.0" />
+      <ScrollBar layoutX="114.0" layoutY="770.0" />
+      <ImageView fx:id="btnSaveEdit_R" fitHeight="30.0" fitWidth="45.0" layoutX="827.0" layoutY="69.0" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="70.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@/view/Images/SaveEdit.png" />
+         </image>
+      </ImageView>
    </children>
    <padding>
       <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
