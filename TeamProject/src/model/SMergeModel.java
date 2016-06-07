@@ -9,15 +9,20 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class SMergeModel {
-	String leftPath;			
-	String rightPath;			
-	ArrayList<String> leftTxt;		
-	ArrayList<String> rightTxt;		
-	ArrayList<Boolean> txtBoolean;
-	ArrayList<String> diffLeftTxt;
-	ArrayList<String> diffRightTxt;
-	File leftFile;				
-	File rightFile;				
+	
+	
+	private String leftPath;			
+	private String rightPath;			
+	private ArrayList<String> leftTxt;		
+	private ArrayList<String> rightTxt;		
+	private ArrayList<Boolean> txtBoolean;
+	private ArrayList<String> diffLeftTxt;
+	private ArrayList<String> diffRightTxt;
+	private File leftFile;				
+	private File rightFile;		
+	
+	
+	
 	
 	public String getleftPath(){return leftPath;}
 	public String getrightPath(){return rightPath;}
@@ -28,7 +33,7 @@ public class SMergeModel {
 	public ArrayList<Boolean> gettxtBoolean(){return txtBoolean;}
 	public File getleftFile(){return leftFile;}
 	public File getrightFile(){return rightFile;}
-	
+
 	
 	public void setleftPath(String leftPath){this.leftPath=leftPath;}
 	public void setrightPath(String rightPath){this.rightPath=rightPath;}
@@ -39,6 +44,7 @@ public class SMergeModel {
 	public void settxtBoolean(ArrayList<Boolean> txtBoolean){this.txtBoolean=txtBoolean;}
 	public void setleftFile(File leftFile){this.leftFile=leftFile;}
 	public void setrightFile(File rihgtFile){this.rightFile=rihgtFile;}
+	
 	
 	public SMergeModel(){
 		leftPath = null;
@@ -173,6 +179,7 @@ public class SMergeModel {
 	
 	
 	public void lcsDiff(){
+		
 		txtBoolean = new ArrayList<Boolean>();
 		
 		deleteGap();

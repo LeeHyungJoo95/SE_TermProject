@@ -72,6 +72,7 @@ public class MainController implements Initializable {
 	private ImageView btnCompare;
 	
 	
+	
 	@FXML
 	public void mergeToLeft()
 	{	
@@ -193,6 +194,7 @@ public class MainController implements Initializable {
 		  ((HashMap)t.getTableView().getItems().get(
                   t.getTablePosition().getRow())).put("left", t.getNewValue());
 			model.getleftTxt().set(t.getTablePosition().getRow(), t.getNewValue());
+			disableMerge();
 	}
 	
 	@FXML
@@ -201,8 +203,17 @@ public class MainController implements Initializable {
 		  ((HashMap)t.getTableView().getItems().get(
                   t.getTablePosition().getRow())).put("right", t.getNewValue());
 		  	model.getleftTxt().set(t.getTablePosition().getRow(), t.getNewValue());
-		
+		  	disableMerge();
 	}
+	
+	private void disableMerge()
+	{	
+		btnMergeto_L.setDisable(true);
+		btnMergeto_R.setDisable(true);
+		textField.setDisable(true);
+		menuMerge.setDisable(true);
+	}
+	
 	
 	@FXML
 	public void save_L()
@@ -259,12 +270,25 @@ public class MainController implements Initializable {
 		            
 		            super.updateItem(item, empty);
 		            this.getTextField().setOnKeyPressed(new EditHandler(this));
-					  
 		            
 		        }
+				
+				@Override
+				public void cancelEdit()//No cancel. Change!
+				{
+					String changed = this.getTextField().getText();
+					super.cancelEdit();
+
+					
+					model.getleftTxt().set(this.getTableRow().getIndex(), changed);
+					
+					
+					setTable();
+				}
+				
+				
+								
 			};});
-			
-		
 
 			tableArea_R.setCellFactory(column ->{return new EditableTableCell(){
 				
@@ -284,17 +308,6 @@ public class MainController implements Initializable {
 		            			getStyleClass().add("different");
 		            	}
 		            }
-		            /*try{
-		            	if(model.gettxtBoolean().get(this.getTableRow().getIndex()))
-		            	{
-		            		getStyleClass().add("same");
-		            	}
-		            	else if(model.gettxtBoolean().get(this.getTableRow().getIndex()) == false)
-		            	{
-		            		if(!model.getrightTxt().get(this.getTableRow().getIndex()).equals("\0"))
-		            			getStyleClass().add("different");
-		            	}
-		            }*/
 		            catch(IndexOutOfBoundsException e)
 		            {
 		            	//Certainly! It doesn't care, anymore.
@@ -305,6 +318,17 @@ public class MainController implements Initializable {
 		            this.getTextField().setOnKeyPressed(new EditHandler(this));
 					   
 		        }
+				
+				@Override
+				public void cancelEdit()//No cancel. Change!
+				{
+					String changed = this.getTextField().getText();
+					super.cancelEdit();
+
+					model.getrightTxt().set(this.getTableRow().getIndex(),  changed);
+
+					setTable();
+				}
 			};});
 		
 			model.lcsDiff();
@@ -339,7 +363,27 @@ public class MainController implements Initializable {
 		public TableCell<HashMap, String> call(TableColumn<HashMap, String> param) {
 			
 			// TODO Auto-generated method stub
-			EditableTableCell tablecell = new EditableTableCell();
+			EditableTableCell tablecell = new EditableTableCell(){
+
+				@Override
+				public void cancelEdit()//No cancel. Change!
+				{
+					String changed = this.getTextField().getText();
+					super.cancelEdit();
+
+					
+					if(this.getTableColumn().equals(tableArea_L))
+					{			
+						model.getleftTxt().set(this.getTableRow().getIndex(), changed);
+					}
+					else
+					{
+						model.getrightTxt().set(this.getTableRow().getIndex(),  changed);
+					}
+					
+					setTable();
+				}
+			};
 			tablecell.getTextField().setOnKeyPressed(new EditHandler(tablecell));
 			
 			
@@ -442,6 +486,7 @@ public class MainController implements Initializable {
 							model.getrightTxt().remove(tablecell.getTableRow().getIndex());
 						}
 					}
+					disableMerge();
 					setTable();
 
 			}

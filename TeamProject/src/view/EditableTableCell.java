@@ -75,7 +75,7 @@ public class EditableTableCell extends TableCell<HashMap, String> {
         		  this.getStyleClass().add("vacant");
         	  }
           }
-          catch(NullPointerException SIBAL)
+          catch(NullPointerException NOREASON)
           {
         	  //I don't know why it happened;
           }
@@ -101,8 +101,8 @@ public class EditableTableCell extends TableCell<HashMap, String> {
       @Override
       public void cancelEdit() {
     	  super.cancelEdit();
-          setText(textField.getText());
-          setGraphic(null);
+    	  setText(textField.getText());    	  
+    	  setGraphic(null);
       }
 
 
