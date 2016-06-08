@@ -195,8 +195,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge할 행 입력." AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="70.0" />
-      <ScrollBar layoutX="114.0" layoutY="770.0" />
+      <TextField fx:id="textField" disable="true" layoutX="246.0" layoutY="29.0" promptText="Merge할 행의 인덱스 입력.(0, 33, 28 같이 복수 입력 가능)" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="70.0" />
       <ImageView fx:id="btnSaveEdit_R" fitHeight="30.0" fitWidth="45.0" layoutX="827.0" layoutY="69.0" onMouseClicked="#edit_R" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="70.0">
          <cursor>
             <Cursor fx:constant="HAND" />
