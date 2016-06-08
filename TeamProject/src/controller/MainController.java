@@ -83,7 +83,7 @@ public class MainController implements Initializable {
 	{	
 		if(!model.copyToLeft(textField.getText()))
 		{
-			textField.setPromptText("인덱스 범위를 벗어남.");
+			textField.setPromptText("인덱스 범위 내의 숫자를 입력.");
 		}
 		else
 		{
@@ -183,22 +183,12 @@ public class MainController implements Initializable {
 	
 	public void setTable()
 	{
-		/*
-		if(model.getleftTxt().get(model.getleftTxt().size()-2).equals("\0") && model.getrightTxt().get(model.getrightTxt().size()-2).equals("\0"))
-		{
-			model.getleftTxt().remove(model.getleftTxt().size()-2);
-			model.getrightTxt().remove(model.getrightTxt().size()-2);
-
-		}
-		*/
 	
 		ObservableList<HashMap> allData = FXCollections.observableArrayList();
 	
 		int leftsize = model.getleftTxt().size();
 		int rightsize = model.getrightTxt().size();
 
-		System.out.println(leftsize);
-		System.out.println(rightsize);
 		int maxsize = (leftsize > rightsize) ? leftsize : rightsize;
 		
 		for(int i = 0; i < maxsize ; i++)
@@ -393,7 +383,7 @@ public class MainController implements Initializable {
 	}
 	
 	
-	private class callback implements Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>
+	public class callback implements Callback<TableColumn<HashMap, String>, TableCell<HashMap, String>>
 	{
 
 		@Override
@@ -426,7 +416,7 @@ public class MainController implements Initializable {
 		
 	}
 		
-	private class EditHandler implements EventHandler<KeyEvent>
+	public class EditHandler implements EventHandler<KeyEvent>
 
 	
 	{

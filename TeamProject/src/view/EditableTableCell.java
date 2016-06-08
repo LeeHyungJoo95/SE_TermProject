@@ -103,7 +103,6 @@ public class EditableTableCell extends TableCell<HashMap, String> {
 
       @Override
       public void cancelEdit() {
-    	  System.out.println("cancel");
     	  super.cancelEdit();
     	  setText(textField.getText());    	  
     	  setGraphic(null);
