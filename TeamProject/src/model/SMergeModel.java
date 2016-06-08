@@ -169,7 +169,6 @@ public class SMergeModel {
 			fitLength();
 		}
 	}
-
 	public boolean copyToLeft(String s) {
 		try {
 			int input;
@@ -187,10 +186,12 @@ public class SMergeModel {
 			}
 
 			else {
-				input--;
-				while (!txtBoolean.get(input)) {
+				do{
 					input--;
-				}
+					if(input < 0){
+						break;
+					}
+				}while(!txtBoolean.get(input));
 				input++;
 				while (input < txtBoolean.size() && !txtBoolean.get(input)) {
 					leftTxt.set(input, rightTxt.get(input));
@@ -224,10 +225,12 @@ public class SMergeModel {
 			}
 
 			else {
-				input--;
-				while (!txtBoolean.get(input)) {
+				do{
 					input--;
-				}
+					if(input < 0){
+						break;
+					}
+				}while(!txtBoolean.get(input));
 				input++;
 				while (input < txtBoolean.size() && !txtBoolean.get(input)) {
 					rightTxt.set(input, leftTxt.get(input));
@@ -243,7 +246,7 @@ public class SMergeModel {
 			return false;
 		}
 	}
-
+	
 	public void lcsDiff() {
 
 		leftTxt.add("\r\n");
